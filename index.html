@@ -1,0 +1,2871 @@
+﻿<!DOCTYPE html>
+<html class="lockscreen">
+    <head>
+        <meta charset="UTF-8">
+        <title>NHZ Wallet</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/bootstrap-colorpicker.css" rel="stylesheet" type="text/css" />
+        <link href="css/app.css" rel="stylesheet" type="text/css" />
+        <link href="css/nhz.css" rel="stylesheet" type="text/css" />
+        <style id="user_header_style" type="text/css"></style>
+        <style id="user_sidebar_style" type="text/css"></style>
+        <style id="user_background_style" type="text/css"></style>
+        <style id="user_page_header_style" type="text/css"></style>
+        <style id="user_box_style" type="text/css"></style>
+        <style id="user_table_style" type="text/css"></style>
+    </head>
+    <body class="lockscreen fixed">
+        <header class="header">
+            <a href="#" class="logo" id="logo" data-page="dashboard">
+                <img src="img/nhz_logo_small.png" height="50" />
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav">
+                    	<li class="dropdown"><a href="#" style="font-weight:bold;" data-toggle="modal" data-target="#send_money_modal" data-i18n="nav.sendnhz"></a></li>
+                    	<li class="dropdown"><a href="#" style="font-weight:bold;" data-toggle="modal" data-target="#send_message_modal" data-i18n="nav.sendmsg"></a></li>
+	                    <li class="dropdown"><a href="#" style="font-weight:bold;" data-toggle="modal" data-target="#generate_token_modal" data-i18n="nav.gentoken"></a></li>
+						<li class="dropdown"><a href="#" style="font-weight:bold;" class="goto-page" data-page="settings" data-i18n="nav.settings"></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-question-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                            	<li><a role="menuitem" tabindex="-1" href="http://nhzcrypto.org/" target="_blank">nhzcrypto.org</a></li>
+				<li><a role="menuitem" tabindex="-1" href="https://kiwiirc.com/client/irc.freenode.org/?nick=wallet|?#NHZ" target="_blank" data-i18n="nav.nhzchat"></a></li>
+								<li><a role="menuitem" tabindex="-1" href="http://forum.nhzcrypto.org/" target="_blank" data-i18n="nav.nhzforum"></a></li>
+								<li><a role="menuitem" tabindex="-1" href="https://wiki.nxtcrypto.org/wiki/Nxt_client_interface" target="_blank" data-i18n="nav.tutorial"></a></li>
+								<li><a role="menuitem" tabindex="-1" href="https://wiki.nxtcrypto.org/wiki/Asset_Exchange" target="_blank" data-i18n="nav.aetutorial"></a></li>
+
+							</ul>
+						</li>
+                        <li class="dropdown" id="logout_button_container">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="logout_button">
+                                <i class="fa fa-power-off"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+								<li><a role="menuitem" tabindex="-1" href="#" onclick="NRS.logout()" data-i18n="nav.logout"></a></li>
+								<li><a role="menuitem" tabindex="-1" href="#" onclick="NRS.logout(true)" data-i18n="nav.logoutandstop"></a></li>
+							</ul>
+						</li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="page" class="wrapper row-offcanvas row-offcanvas-left">
+            <aside class="left-side sidebar-offcanvas">
+                <section class="sidebar">
+                	<div class="user-panel">
+                        <div class="pull-left info">
+                        	<div class="pull-left info">
+                        		<div style="margin-bottom:5px;"><a href="#" id="account_name" data-toggle="modal" data-target="#account_info_modal" data-i18n="sidebar.accountinfo"></a></div>
+	                        	<div id="account_id_dropdown" class="dropdown" style="margin-bottom:10px">
+	                        		<span id="account_id_prefix">ID: </span><span id="account_id" class="dropdown-toggle" data-toggle="dropdown" data-type="account_id" style="font-weight:bold"></span>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li role="presentation" class="copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="account_rs" data-i18n="sidebar.copyid"></a></li>
+										<li role="presentation" class="copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="account_id" data-i18n="sidebar.copynumericid" ></a></li>
+										<li role="presentation" class="remote_only copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="message_link" data-i18n="sidebar.copymsglink"></a></li>
+										<li role="presentation" class="remote_only copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="send_link" data-i18n="sidebar.copynhzlink"></a></li>
+									</ul>
+								</div>
+	                            <a href="#" id="forging_indicator" class="forging" style="display:none;font-size:13px;"><i class="fa fa-circle" style="font-size:12px;"></i> <span>Forging</span></a>
+                        	</div>
+                        </div>
+                    </div>
+                    <form action="#" method="get" class="sidebar-form" id="id_search">
+                        <div class="input-group">
+                            <div >
+							<input type="text" name="q" class="form-control" data-i18n="[placeholder]sidebar.searchbox">
+                            </div>
+							<span class="input-group-btn">
+                                <button type="submit" name="seach" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <ul class="sidebar-menu">
+                        <li class="active" id="dashboard_link"><a href="#" data-page="dashboard"><i class="fa fa-dashboard"></i> <span data-i18n="sidebar.dashboard"></span></a></li>
+                        <li><a href="#" data-page="transactions"><i class="fa fa-briefcase"></i> <span data-i18n="sidebar.transactions"></span></a></li>
+                        <li class="treeview" id="sidebar_asset_exchange">
+                        	<a href="#" data-page="asset_exchange"><i class="fa fa-signal"></i><span data-i18n="sidebar.ae"></span><i class="fa pull-right fa-angle-right" style="padding-top:3px"></i></a>
+                            <ul class="treeview-menu" style="display: none;">
+                                 <li><a href="#" data-page="asset_exchange"><i class="fa fa-angle-double-right"></i><span data-i18n="sidebar.ae"></span></a></li>
+                            	<li><a href="#" data-page="my_assets"><i class="fa fa-angle-double-right"></i><span data-i18n="sidebar.myassets"></span></a></li>
+                                <li><a href="#" data-page="open_orders"><i class="fa fa-angle-double-right"></i><span data-i18n="sidebar.openorders"></span></a></li>
+                                <li><a href="#" data-toggle="modal" data-target="#issue_asset_modal"><i class="fa fa-angle-double-right"></i><span data-i18n="sidebar.issue"></span></a></li>
+                        	</ul>
+                        </li>
+                        <li><a href="#" data-page="contacts"><i class="fa fa-user"></i> <span data-i18n="sidebar.contacts"></span></a></li>
+                        <li><a href="#" data-page="messages"><i class="fa fa-envelope"></i> <span data-i18n="sidebar.messages"></span></a></li>
+                        <li><a href="#" data-page="aliases"><i class="fa fa-bookmark"></i> <span data-i18n="sidebar.aliases"></span></a></li>
+                        <li class="testnet_only"><a href="#" data-page="polls"><i class="fa fa-thumbs-up"></i><span data-i18n="sidebar.polls"></span></a></li>
+                        <li><a href="#" data-page="blocks"><i class="fa fa-bars"></i> <span data-i18n="sidebar.blocks"></span></a></li>
+                        <li><a href="#" data-page="peers"><i class="fa fa-cloud"></i> <span data-i18n="sidebar.peers"></span></a></li>
+                        <li id="news_link"><a href="#" data-page="news"><i class="fa fa-book"></i> <span data-i18n="sidebar.news"></span></a></li>
+                	</ul>
+            	</section>
+
+            </aside>
+            <aside class="right-side">
+
+				<div id="dashboard_page" class="page dashboard" style="display:block">
+	                <section class="content-header"><h1 data-i18n="dashboard.dashboard"></h1>
+					</section>
+
+	                <section class="content">
+	                	<div class="alert-danger alert alert-no-icon" id="dashboard_message" style="display:none;padding:5px;padding-left:5px;margin-bottom:15px;"><span data-i18n="[html]dashboard.warning"></span> (<a href="#" data-toggle="modal" data-target="#send_message_modal" data-i18n="dashboard.sendmsg"></a>, <a href="#" data-toggle="modal" data-target="#register_alias_modal" data-i18n="dashboard.buyalias"></a>, <a href="#" data-toggle="modal" data-target="#send_money_modal" data-i18n="dashboard.sendnhz"></a>, ...)</div>
+
+	                    <div class="row">
+	                        <div class="col-lg-3 col-xs-6">
+	                            <div class="small-box bg-olive">
+	                                <div class="inner">
+	                                    <h3><span id="account_balance" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+	                                    <p><span class="label" id="account_leasing" style="display:none;background-color:#1990B1"></span></p>
+										<p data-i18n="dashboard.balance"></p>
+	                                </div>
+	                                <div class="icon"><i class="fa fa-briefcase"></i></div>
+	                                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#account_details_modal" data-i18n="dashboard.moreinfo"> <i class="fa fa-arrow-circle-right"></i></a>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3 col-xs-6">
+	                            <div class="small-box bg-yellow">
+	                                <div class="inner">
+	                                    <h3><span id="account_forged_balance" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+	                                    <p data-i18n="dashboard.fbalance"></p>
+	                                </div>
+	                                <div class="icon"><i class="ion ion-hammer"></i></div>
+	                                <a href="#" id="goto_forged_blocks" class="small-box-footer" data-i18n="dashboard.moreinfo"> <i class="fa fa-arrow-circle-right"></i></a>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3 col-xs-6">
+	                            <div class="small-box bg-red">
+	                                <div class="inner">
+	                                    <h3><span id="account_nr_assets" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+	                                    <p data-i18n="dashboard.assetsowned"></p>
+	                                </div>
+	                                <div class="icon"><i class="ion ion-pie-graph"></i></div>
+	                                <a href="#" class="small-box-footer goto-page" data-page="my_assets" data-i18n="dashboard.moreinfo"><i class="fa fa-arrow-circle-right"></i></a>
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-3 col-xs-6">
+	                            <div class="small-box bg-aqua">
+	                                <div class="inner">
+	                                    <h3><span id="nrs_version" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+	                                    <p><span id="nrs_version_info" data-i18n="dashboard.nrsversion"></span> <span class="label label-danger" id="nrs_update" style="display:none;"></span></p>
+	                                </div>
+	                                <div class="icon"><i class="fa fa-code"></i></div>
+	                                <a href="#" class="small-box-footer" data-toggle="modal" data-target="#nrs_modal" data-i18n="dashboard.moreinfo"> <i class="fa fa-arrow-circle-right"></i></a>
+	                            </div>
+	                        </div>
+	                    </div>
+						<div class="row">
+						    <div class="col-md-6">
+						        <div class="box box-primary">
+						            <div class="box-header"><h3 class="box-title" data-i18n="dashboard.recenttransactions"></h3></div>
+						            <div class="box-body no-padding">
+						            	<div class="data-container data-loading" data-no-padding="true" data-extra="#dashboard_transactions_footer">
+							                <table class="table table-striped" id="dashboard_transactions_table">
+							                	<thead>
+							                    <tr>
+							                        <th data-i18n="dashboard.date"></th>
+							                        <th colspan="2" data-i18n="dashboard.amountnfee"></th>
+							                        <th data-i18n="dashboard.acc"></th>
+							                        <th style="width:40px" data-i18n="dashboard.conf"></th>
+							                    </tr>
+							                    </thead>
+							                    <tbody>
+
+							                    </tbody>
+							                </table>
+							                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							                <div class="data-empty-container"><p data-i18n="dashboard.notrans"></p></div>
+							       		</div>
+						            </div>
+						            <div class="box-footer" id="dashboard_transactions_footer" style="display: none"><button class="btn btn-primary goto-page" data-page="transactions" data-i18n="dashboard.viewmore"><i class="fa fa-caret-right"></i></button></div>
+						        </div>
+							</div>
+							<div class="col-md-6">
+							    <div class="box box-success">
+							        <div class="box-header"><h3 class="box-title" data-i18n="dashboard.recentblocks"></h3></div>
+							        <div class="box-body no-padding">
+							        	<div class="data-container data-loading" data-no-padding="true" data-extra="#dashboard_blocks_footer">
+								            <table class="table table-striped" id="dashboard_blocks_table">
+								            	<thead>
+								                <tr>
+								                    <th style="width: 30px" data-i18n="dashboard.height"></th>
+								                    <th data-i18n="dashboard.date"></th>
+								                    <th data-i18n="dashboard.amountnfee"></th>
+								                    <th data-i18n="dashboard.nrtx"></th>
+								                </tr>
+								                </thead>
+								                <tbody>
+
+								                </tbody>
+								            </table>
+								            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+								            <div class="data-empty-container"><p data-i18n="dashboard.noblocks"></p></div>
+								    	</div>
+							        </div>
+							        <div class="box-footer" id="dashboard_blocks_footer" style="display: none"><button class="btn btn-primary goto-page" data-page="blocks" data-i18n="dashboard.viewmore"><i class="fa fa-caret-right"></i></button></div>
+							    </div>
+							</div>
+						</div>
+	            	</section>
+				</div>
+
+
+				<div id="transactions_page" class="page transactions">
+	                <section class="content-header">
+	                	<h1 data-i18n="transactions.transactions"></h1>
+						<div style="position:absolute;top:9px;right:9px;">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<span class="text" data-i18n="transactions.alltransactions"></span> <span class="caret"></span>
+								</button>
+					        	<ul id="transactions_page_type" class="dropdown-menu" role="menu" style="right:0;left:auto;">
+					        		<li><a href="#" data-type="" data-i18n="transactions.alltransactions"></a></li>
+					          		<li><a href="#" data-type="0:0" data-i18n="transactions.ordinary"></a></li>
+					           		<li><a href="#" data-type="1:0" data-i18n="transactions.arbitrary"></a></li>
+					           		<li><a href="#" data-type="1:1" data-i18n="transactions.alias"></a></li>
+					           		<li><a href="#" data-type="1:2" data-i18n="transactions.poll"></a></li>
+					           		<li><a href="#" data-type="1:3" data-i18n="transactions.vote"></a></li>
+					           		<li><a href="#" data-type="2:0" data-i18n="transactions.asseti"></a></li>
+					           		<li><a href="#" data-type="2:1" data-i18n="transactions.assett"></a></li>
+					           		<li><a href="#" data-type="2:2" data-i18n="transactions.askorder"></a></li>
+					           		<li><a href="#" data-type="2:3" data-i18n="transactions.bidorder"></a></li>
+					           		<li><a href="#" data-type="2:4" data-i18n="transactions.cancelask"></a></li>
+					           		<li><a href="#" data-type="2:5" data-i18n="transactions.cancelbid"></a></li>
+					           		<li><a href="#" data-type="unconfirmed" data-i18n="transactions.unconfirmed"></a></li>
+					          	</ul>
+							</div>
+	                	</div>
+	                </section>
+
+	                <section class="content">
+	              		<div class="data-container data-loading">
+							<table class="table table-striped" id="transactions_table">
+								<thead>
+							    <tr>
+							    	<th data-i18n="transactions.transid"></th>
+							        <th data-i18n="transactions.date"></th>
+							        <th data-i18n="transactions.type"></th>
+							        <th colspan="2" data-i18n="transactions.amount"></th>
+							        <th data-i18n="transactions.fee"></th>
+							        <th data-i18n="transactions.account"></th>
+							        <th data-i18n="transactions.confirm"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container"><p data-i18n="transactions.notrans"></p></div>
+						</div>
+	                </section>
+                </div>
+
+
+                <div id="messages_page" class="page messages">
+	                <section class="content-header">
+	                	<h1 data-i18n="messages.messages"></h1>
+	              <!--
+						<div style="position:absolute;top:9px;right:9px;">
+				            <div class="btn-group">
+				                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select Recipient <span class="caret"></span></button>
+				                <ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;" id="messages_sidebar_menu">
+
+				                </ul>
+				            </div>
+			            </div>
+			     -->
+	                </section>
+
+					<section class="content content-stretch" style="position:fixed;margin-top:3px;padding:0; width:100%; height:100%;">
+						<div class="content-spliter">
+					      <div class="content-splitter-inner">
+					          <div class="content-splitter-sidebar" id="message_sidebar" style="width:200px;overflow-x:hidden;">
+					              <div class="content-splitter-sidebar-inner">
+					              	<div class="list-group unselectable sidebar_context" id="messages_sidebar">
+				                        <div style="text-align:center;padding-top:10px;" data-i18n="messages.loading"><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></div>
+					              	</div>
+						             </div>
+						         </div>
+						         <div class="content-splitter-right" id="message_content">
+						         	<div class="content-splitter-right-inner">
+						         		<div id="no_message_selected" style="padding-top: 150px;text-align:center;" data-i18n="messages.contsel"></div>
+						         		<div id="no_messages_available" style="padding-top: 150px;text-align:center;display:none;"><div data-i18n="messages.noavailable"></div><a href="#" data-toggle="modal" data-target="#send_message_modal" data-i18n="messages.sendone"></a>.</div>
+
+						         		<div id="message_details">
+							           	</div>
+							           	<form role="form" id="inline_message_form" method="post" style="display:none;position:fixed;bottom:0;right:20px;left:440px;">
+							           		<div class="form-group">
+							           			<textarea class="form-control" name="inline_message_text" id="inline_message_text" rows="3"  data-i18n="[placeholder]messages.message"></textarea>
+							           		</div>
+							           		<div class="row">
+							           			<div class="col-xs-10 col-sm-10 col-md-10">
+							           				<div class="form-group">
+							           					<input type="password" class="form-control secret_phrase" id="inline_message_password" name="inline_message_password" data-i18n="[placeholder]messages.secret" style="display:inline;width:50%">
+							           					<span><label for="inline_message_encrypt" style="font-weight:normal;color:#666" data-i18n="[html]messages.encrypt"></label></span>
+							           				</div>
+							           			</div>
+							           			<div class="col-xs-2-col-sm-2 col-md-2">
+							           				<div class="form-group" style="text-align:right">
+							           					<input type="hidden" name="inline_message_recipient" id="inline_message_recipient" value="" />
+							           					<button type="submit" id="inline_message_submit" class="btn btn-default" data-i18n="[data-loading-text]messages.submit;messages.send"></button>
+							           				</div>
+							           			</div>
+							           		</div>
+							           	</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+                </div>
+
+                <div id="contacts_page" class="page contacts">
+                    <section class="content-header">
+                    	<h1 data-i18n="contacts.contacts"></h1>
+                    	<div style="position:absolute;top:9px;right:9px;">
+							<button id="add_contact_button" type="button" class="btn btn-default" data-toggle="modal" data-target="#add_contact_modal" data-i18n="contacts.add"></button>
+						</div>
+                    </section>
+
+                    <section class="content">
+                    	<div id="contact_page_database_error" style="display:none" data-i18n="contacts.dberror"></div>
+                  		<div class="data-container data-loading" id="contacts_table_container">
+                			<table class="table table-striped" id="contacts_table">
+                				<thead>
+                			    <tr>
+                			        <th data-i18n="contacts.name"></th>
+                			        <th data-i18n="contacts.acc"></th>
+                			        <th data-i18n="contacts.mail"></th>
+                			        <th data-i18n="contacts.desc"></th>
+                			        <th style="width:10%" data-i18n="contacts.action"></th>
+                			    </tr>
+                			    </thead>
+                			    <tbody>
+
+                			    </tbody>
+                			</table>
+                			<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                			<div class="data-empty-container"><p data-i18n="contacts.nocontacts"></p><p><a href="#" data-toggle="modal" data-target="#add_contact_modal" data-i18n="contacts.addone"></a></p></div>
+                		</div>
+                    </section>
+                </div>
+
+                <div id="polls_page" class="page polls">
+                    <section class="content-header">
+                    	<h1 data-i18n="polls.polls"></h1>
+                    	<div style="position:absolute;top:9px;right:9px;">
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#create_poll_modal" data-i18n="polls.create"></button>
+						</div>
+                    </section>
+
+                    <section class="content">
+                  		<div class="data-container data-loading">
+                			<table class="table table-striped" id="polls_table">
+                				<thead>
+                			    <tr>
+                			        <th data-i18n="polls.title"></th>
+                			        <th data-i18n="polls.desc"></th>
+                			        <th data-i18n="polls.sender"></th>
+                			        <th data-i18n="polls.start"></th>
+                			        <th data-i18n="polls.vote"></th>
+                			    </tr>
+                			    </thead>
+                			    <tbody>
+
+                			    </tbody>
+                			</table>
+                			<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+                			<div class="data-empty-container"><p data-i18n="polls.nopolls"></p></div>
+                		</div>
+                    </section>
+                </div>
+
+            	<div id="aliases_page" class="page alias">
+                	<section class="content-header">
+                		<h1 data-i18n="alias.alias"></h1>
+                		<div style="position:absolute;top:9px;right:9px;">
+							<form action="#" method="get" class="sidebar-form" id="alias_search" style="width:180px;margin:0;display:inline-block;vertical-align:middle;">
+								<div class="input-group">
+									<input type="text" name="q" class="form-control" data-i18n="[placeholder]alias.search">
+									<span class="input-group-btn">
+										<button type="submit" name="seach" class="btn btn-flat"><i class="fa fa-search"></i></button>
+									</span>
+								</div>
+							</form>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#register_alias_modal" style="display:inline-block;vertical-align:middle;" data-i18n="alias.register"></button>
+						</div>
+                	</section>
+                	<section class="content">
+                		<div class="row">
+    	                    <div class="col-lg-3 col-xs-6">
+    	                        <div class="small-box bg-olive">
+    	                            <div class="inner inner-smaller">
+    	                                <h3><span id="alias_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+    	                                <p data-i18n="alias.owned"></p>
+    	                            </div>
+    	                            <div class="icon-smaller" style="bottom:-10px"><i class="fa fa-briefcase"></i></div>
+    	                            <div class="small-box-footer"></div>
+    	                        </div>
+    	                    </div>
+    	                    <div class="col-lg-3 col-xs-6">
+    	                        <div class="small-box bg-yellow">
+    	                            <div class="inner inner-smaller">
+    	                                <h3><span id="empty_alias_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+    	                                <p data-i18n="alias.empty"></p>
+    	                            </div>
+    	                            <div class="icon-smaller" style="bottom:-10px"><i class="fa fa-exclamation"></i></div>
+    	                            <div class="small-box-footer"></div>
+    	                        </div>
+    	                    </div>
+    	                    <div class="col-lg-3 col-xs-6">
+    	                        <div class="small-box bg-red">
+    	                            <div class="inner inner-smaller">
+    	                                <h3><span id="alias_uri_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+    	                                <p data-i18n="alias.uri"></p>
+    	                            </div>
+    	                            <div class="icon-smaller" style="bottom:-10px"><i class="fa fa-cloud"></i></div>
+    	                            <div class="small-box-footer"></div>
+    	                        </div>
+    	                    </div>
+    	                    <div class="col-lg-3 col-xs-6">
+    	                        <div class="small-box bg-aqua">
+    	                            <div class="inner inner-smaller">
+    	                                <h3><span id="alias_account_count" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+    	                                <p data-i18n="alias.account"></p>
+    	                            </div>
+    	                            <div class="icon-smaller" style="bottom:-10px"><i class="ion ion-person"></i></div>
+    	                            <div class="small-box-footer"></div>
+    	                        </div>
+    	                    </div>
+    	                </div>
+
+                	    <div class="data-container data-loading">
+							<table class="table table-striped" id="aliases_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="alias.aliass"></th>
+							        <th data-i18n="alias.urii"></th>
+							        <th data-i18n="alias.edit"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container"><p data-i18n="alias.noalias"></p><p><a href="#" data-toggle="modal" data-target="#register_alias_modal" data-i18n="alias.registerr"></a></p></div>
+						</div>
+	                </section>
+                </div>
+
+                <div id="open_orders_page" class="page openorders">
+                	<section class="content-header"><h1 data-i18n="openorders.openorders"></h1></section>
+                 	<section class="content">
+	                 	<div class="row">
+	                 	    <div class="col-md-6">
+	                 	        <div class="box box-primary">
+	                 	            <div class="box-header"><h3 class="box-title" data-i18n="openorders.sell"></h3></div>
+	                 	            <div class="box-body no-padding">
+                	   					<div class="data-container data-loading" data-no-padding="true">
+		                 	                <table class="table table-striped" id="open_ask_orders_table">
+												<thead>
+												<tr>
+												    <th data-i18n="openorders.asset"></th>
+												    <th data-i18n="openorders.qty"></th>
+												    <th data-i18n="openorders.price"></th>
+												    <th data-i18n="openorders.total"></th>
+												    <th data-i18n="openorders.cancel"></th>
+												</tr>
+												</thead>
+		                 	                    <tbody>
+
+		                 	                    </tbody>
+		                 	                </table>
+		                 	                <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+		                 	                <div class="data-empty-container"><p data-i18n="openorders.nosell"></p></div>
+	                 	                </div>
+	                 	            </div>
+	                 	        </div>
+	                 		</div>
+	                 		<div class="col-md-6">
+	                 		    <div class="box box-primary">
+	                 		        <div class="box-header"><h3 class="box-title" data-i18n="openorders.buy"></h3></div>
+	                 		        <div class="box-body no-padding">
+	                 		            <div class="data-container data-loading" data-no-padding="true">
+		                 		            <table class="table table-striped" id="open_bid_orders_table">
+												<thead>
+												<tr>
+												    <th data-i18n="openorders.asset"></th>
+												    <th data-i18n="openorders.qty"></th>
+												    <th data-i18n="openorders.price"></th>
+												    <th data-i18n="openorders.total"></th>
+												    <th data-i18n="openorders.cancel"></th>
+												</tr>
+												</thead>
+		                 		                <tbody>
+
+		                 		                </tbody>
+		                 		            </table>
+		                 		            <div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+		                 		            <div class="data-empty-container"><p data-i18n="openorders.nobuy"></p></div>
+		                 		    	</div>
+	                 		        </div>
+	                 		    </div>
+	                 		</div>
+	                 	</div>
+                 	</section>
+                </div>
+
+                <div id="my_assets_page" class="page myassets">
+	                <section class="content-header"><h1 data-i18n="myassets.myassets"></h1></section>
+					<section class="content">
+						<div class="data-container data-loading">
+							<table class="table table-striped" id="my_assets_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="openorders.asset"></th>
+							        <th data-i18n="openorders.qty"></th>
+							        <th data-i18n="myassets.total"></th>
+							        <th data-i18n="myassets.percent"></th>
+							        <th data-i18n="myassets.lowask"></th>
+							        <th data-i18n="myassets.highbid"></th>
+							        <th data-i18n="myassets.value"></th>
+							        <th data-i18n="myassets.transfer"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container"><p data-i18n="myassets.noassets"></p></div>
+						</div>
+					</section>
+				</div>
+
+                <div id="asset_exchange_page" class="page aepage">
+	                <section class="content-header">
+	                	<h1 data-i18n="aepage.aepage"></h1>
+	                	<div style="position:absolute;top:9px;right:9px;">
+		                	<button type="button" class="btn btn-sm btn-default" id="asset_exchange_add_asset_bookmark" data-toggle="modal" data-target="#add_asset_bookmark_modal" data-i18n="aepage.addasset"></button>
+	                		<button type="button" class="btn btn-sm btn-default" id="asset_exchange_bookmark_this_asset" style="display:none" data-i18n="aepage.bookmark"></button>
+		                	<button type="button" class="btn btn-sm btn-default" id="asset_exchange_clear_search" style="display:none" data-i18n="aepage.clear"></button>
+	                	</div>
+	                </section>
+	                <section class="content content-stretch" style="position:fixed;margin-top:3px;padding:0; width:100%; height:100%;">
+						<div class="content-spliter">
+			                <div class="content-splitter-inner">
+			                    <div class="content-splitter-sidebar" style="width:200px">
+			                        <div class="content-splitter-sidebar-inner">
+			                        	<div class="list-group unselectable sidebar_context" id="asset_exchange_sidebar">
+											<div id="asset_exchange_sidebar_search">
+												 <form action="#" method="get" class="sidebar-form" id="asset_exchange_search">
+													<div class="input-group">
+														<input type="text" name="q" class="form-control" data-i18n="[placeholder]aepage.search">
+														<span class="input-group-btn">
+														<button type="submit" name="seach" class="btn btn-flat" style="padding-left:3px"><i class="fa fa-search"></i></button>
+														</span>
+													</div>
+												</form>
+											</div>
+											<div id="asset_exchange_sidebar_content">
+				                        		<div style="text-align:center;padding-top:10px;" data-i18n="aepage.load"><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></div>
+				                        	</div>
+			                        	</div>
+						             </div>
+						         </div>
+						         <div class="content-splitter-right">
+						         	<div class="content-splitter-right-inner">
+						         		<div id="no_assets_available" style="padding-top: 150px;text-align:center;display:none;" data-i18n="aepage.noavailable"></div>
+						         		<div id="no_asset_search_results" style="padding-top: 150px;text-align:center;display:none;" data-i18n="aepage.notfound"></div>
+						         		<div id="no_asset_selected" style="padding-top: 150px;text-align:center;" data-i18n="aepage.select"></div>
+						         		<div id="loading_asset_data" style="padding-top: 150px;text-align:center;display: none;" data-i18n="aepage.assetload"><br /><br /><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+						         		<div id="asset_details" style="display:none;">
+							            	<div class="alert alert-danger alert-no-icon" id="asset_exchange_duplicates_warning" style="display:none" data-i18n="[html]aepage.warning"></div>
+
+							            	<div style="float:right;color: #999999;background:white;padding:5px;border:1px solid #ccc;border-radius:3px">
+							            		<strong data-i18n="aepage.account"></strong>: <span id="asset_account"></span><br />
+					                        	<span id="asset_id_dropdown" class="dropdown" style="margin-bottom:0;">
+					                        		<strong data-i18n="aepage.id"></strong>: &nbsp;<a href="#" id="asset_id" class="dropdown-toggle" data-toggle="dropdown"></a>
+													<ul class="dropdown-menu" role="menu" style="right:0;left:auto;text-align:left;">
+														<li role="presentation" class="copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="asset_id" data-i18n="aepage.copyid"></a></li>
+														<li role="presentation" class="remote_only copy_link"><a role="menuitem" tabindex="-1" href="#" data-type="asset_link" data-i18n="aepage.copylink"></a></li>
+													</ul>
+												</span>
+							            	</div>
+							                <h3 style="margin-top:0" id="asset_name"></h3>
+
+							                <div style="color:#838383;margin-bottom:5px">
+								                <strong data-i18n="aepage.qty"></strong>: <span id="asset_quantity"></span>
+								                <strong data-i18n="aepage.decimals"></strong>: <span id="asset_decimals"></span>
+							                </div>
+
+							                <div id="asset_description"></div>
+							                <hr />
+
+							                <div class="row">
+							                	<div class="col-md-6">
+								                	<div class="box box-solid box-info collapsed-box" id="buy_asset_box">
+								                		<div class="box-header" style="background-color:#DFF0D9;color: #48AB6C;">
+								                	   	<h3 class="box-title" data-i18n="[html]aepage.buy"></h3>
+								                	       <div class="box-tools pull-right">
+								                	       	<button class="btn btn-info btn-sm" style="background-color: #48AB6C"><i class="fa fa-plus"></i></button>
+								                	        </div>
+								                	    </div>
+								                	    <div class="box-body no-padding" style="display:none">
+								                	    	<div style="background-color:#DFF0D9;color: #666;padding-left:10px;padding-right: 10px;padding-top: 0px;padding-bottom:3px;" id="buy_automatic_price"><strong data-i18n="aepage.bal"></strong>: <span id="your_nhz_balance"></span> NHZ</div>
+
+									                	    <form role="form" class="form-horizontal" style="padding: 10px;;max-width:350px;margin-left:auto;margin-right:auto;">
+									                	    	<div style="margin-left:-20px">
+										                	    	<div class="form-group">
+										                	    		<label for="buy_asset_quantity" class="col-sm-3 control-label" data-i18n="aepage.qty"></label>
+										                	    		<div class="col-sm-9">
+										                	    			<div class="input-group">
+										                	    				<input id="buy_asset_quantity" type="text" name="buy_asset_quantity" value="0" class="form-control" data-type="buy" />
+										                	    				<span class="input-group-addon"><span class="asset_name"></span></span>
+										                	    			</div>
+										                	    		</div>
+										                	    	</div>
+										                	    	<div class="form-group">
+										                	    		<label for="buy_asset_price" class="col-sm-3 control-label" data-i18n="aepage.price"></label>
+										                	    		<div class="col-sm-9">
+										                	    			<div class="input-group">
+										                	    				<input id="buy_asset_price" type="text" value="0" name="buy_asset_price" class="form-control" data-type="buy" />
+										                	    				<span class="input-group-addon">NHZ / <span class="asset_name"></span></span>
+										                	    			</div>
+										                	    		</div>
+										                	    	</div>
+										                	    	<div class="form-group">
+										                	    		<label for="buy_asset_total" class="col-sm-3 control-label" data-i18n="aepage.total"></label>
+										                	    		<div class="col-sm-9">
+										                	    			<div class="input-group">
+										                	    				<input type="text" name="buy_asset_total" id="buy_asset_total" readonly value="0" class="form-control disabled" />
+										                	    				<span class="input-group-addon">NHZ</span>
+										                	    			</div>
+										                	    		</div>
+										                	    	</div>
+										                	    	<div class="form-group">
+										                	    		<label for="buy_asset_fee" class="col-sm-3 control-label" data-i18n="aepage.fee"></label>
+										                	    		<div class="col-sm-9">
+										                	    			<div class="input-group">
+										                	    				<input type="text" id="buy_asset_fee" name="buy_asset_fee" value="1" class="form-control" />
+										                	    				<span class="input-group-addon">NHZ</span>
+										                	    			</div>
+										                	    		</div>
+										                	    	</div>
+										                	    	<div class="form-group form-group-last">
+										                	    		<div class="col-sm-3"></div>
+										                	    		<div class="col-sm-9">
+										                	    			<button type="button" class="btn btn-primary btn-lg btn-block" id="buy_asset_button" data-toggle="modal" data-target="#asset_order_modal" data-asset="" data-type="Buy" data-i18n="[html]aepage.buya"></button>
+										                	    		</div>
+										                	    	</div>
+									                	    	</div>
+															</form>
+								                	    </div>
+								                	</div>
+								                	<div class="box box-danger" style="min-height:400px;max-height: 400px;overflow: auto;;">
+								                	    <div class="box-header">
+								                	    	<h3 class="box-title" data-i18n="[html]aepage.sello"></h3>
+								                	    </div>
+								                	    <div class="box-body no-padding">
+								                	        <div class="data-container data-loading" data-no-padding="true">
+								                	            <table class="table table-striped" id="asset_exchange_ask_orders_table">
+								                	            	<thead>
+								                	                <tr>
+								                	                    <th data-i18n="aepage.account"></th>
+								                	                    <th data-i18n="aepage.qty"></th>
+								                	                    <th data-i18n="aepage.price"></th>
+								                	                    <th data-i18n="aepage.total"></th>
+								                	                </tr>
+								                	                </thead>
+								                	                <tbody>
+
+								                	                </tbody>
+								                	            </table>
+								                	            <div class="data-loading-container"><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+								                	            <div class="data-empty-container"><p data-i18n="aepage.nosell"></p></div>
+								                	    	</div>
+								                	    </div>
+								                	</div>
+												</div>
+							                    <div class="col-md-6">
+								                    <div class="box box-solid box-info collapsed-box" id="sell_asset_box">
+								                        <div class="box-header" style="background:#F2DEDE;color:#ED4348;">
+								                            <h3 class="box-title" data-i18n="[html]aepage.sell"></h3>
+								                            <div class="box-tools pull-right">
+								                                <button class="btn btn-info btn-sm" style="background-color: #ED4348"> <i class="fa fa-plus"></i></button>
+								                            </div>
+								                        </div>
+								                        <div class="box-body no-padding" style="display:none">
+								                       		<div style="background-color:#F2DEDE;color: #666;padding-left:10px;padding-right: 10px;padding-top: 0px;padding-bottom:3px;" id="sell_automatic_price"><strong data-i18n="aepage.bal"></strong>: <span id="your_asset_balance"></span> <span class="asset_name"></span></div>
+
+									                        <form role="form" class="form-horizontal" style="padding: 10px;max-width:350px;margin-left:auto;margin-right:auto;">
+										                        <div style="margin-left:-20px">
+										                        	<div class="form-group">
+										                        		<label for="sell_asset_quantity" class="col-sm-3 control-label" data-i18n="aepage.qty"></label>
+										                        		<div class="col-sm-9">
+										                        			<div class="input-group">
+										                        				<input id="sell_asset_quantity" type="text" name="sell_asset_quantity" value="0" class="form-control" data-type="sell" />
+										                        				<span class="input-group-addon"><span class="asset_name"></span></span>
+										                        			</div>
+										                        		</div>
+										                        	</div>
+										                        	<div class="form-group">
+										                        		<label for="sell_asset_price" class="col-sm-3 control-label" data-i18n="aepage.price"></label>
+										                        		<div class="col-sm-9">
+										                        			<div class="input-group">
+										                        				<input id="sell_asset_price" type="text" value="0" name="sell_asset_price" class="form-control" data-type="sell" />
+										                        				<span class="input-group-addon">NHZ / <span class="asset_name"></span></span>
+										                        			</div>
+										                        		</div>
+										                        	</div>
+										                        	<div class="form-group">
+										                        		<label for="sell_asset_total" class="col-sm-3 control-label" data-i18n="aepage.total"></label>
+										                        		<div class="col-sm-9">
+										                        			<div class="input-group">
+										                        				<input type="text" name="sell_asset_total" id="sell_asset_total" readonly value="0" class="form-control disabled" />
+										                        				<span class="input-group-addon">NHZ</span>
+										                        			</div>
+										                        		</div>
+										                        	</div>
+										                        	<div class="form-group">
+										                        		<label for="sell_asset_fee" class="col-sm-3 control-label" data-i18n="aepage.fee"></label>
+										                        		<div class="col-sm-9">
+										                        			<div class="input-group">
+										                        				<input type="text" id="sell_asset_fee" name="sell_asset_fee" value="1" class="form-control" />
+										                        				<span class="input-group-addon">NHZ</span>
+										                        			</div>
+										                        		</div>
+										                        	</div>
+										                        	<div class="form-group form-group-last">
+										                        		<div class="col-sm-3"></div>
+										                        		<div class="col-sm-9">
+										                        			<button type="button" class="btn btn-primary btn-lg btn-block" id="sell_asset_button" data-toggle="modal" data-target="#asset_order_modal" data-asset="" data-type="Sell" data-i18n="[html]aepage.sella"></button>
+										                        		</div>
+										                        	</div>
+										                        </div>
+									                        </form>
+								                        </div>
+								                    </div>
+					                        	    <div class="box box-success" style="min-height:400px;max-height: 400px;overflow: auto;;">
+					                        	        <div class="box-header"><h3 class="box-title" data-i18n="[html]aepage.buyo"></h3></div>
+					                        	        <div class="box-body no-padding">
+					                        	       		<div class="data-container data-loading" data-no-padding="true">
+						                        	            <table class="table table-striped" id="asset_exchange_bid_orders_table">
+						                        	            	<thead>
+						                        	                <tr>
+						                        	                    <th data-i18n="aepage.account"></th>
+						                        	                    <th data-i18n="aepage.qty"></th>
+						                        	                    <th data-i18n="aepage.price"></th>
+						                        	                    <th data-i18n="aepage.total"></th>
+						                        	                </tr>
+						                        	                </thead>
+						                        	                <tbody>
+
+						                        	                </tbody>
+						                        	            </table>
+						                        	            <div class="data-loading-container"><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+						                        	            <div class="data-empty-container"><p data-i18n="aepage.nobuy"></p></div>
+						                        	    	</div>
+					                        	        </div>
+					                        	    </div>
+					                        	</div>
+					                        </div>
+
+					                        <div class="box box-primary" style="max-height:500px;overflow:auto;margin-bottom:100px;">
+					                            <div class="box-header"><h3 class="box-title" data-i18n="aepage.history"></h3></div>
+					                            <div class="box-body no-padding">
+					                            	<div class="data-container data-loading" data-no-padding="true">
+						                                <table class="table table-striped" id="asset_exchange_trade_history_table">
+						                                	<thead>
+						                                    <tr>
+						                                        <th data-i18n="aepage.date"></th>
+						                                        <th data-i18n="aepage.qty"></th>
+						                                        <th data-i18n="aepage.price"></th>
+						                                        <th data-i18n="aepage.total"></th>
+						                                        <th data-i18n="aepage.askid"></th>
+						                                        <th data-i18n="aepage.bidid"></th>
+						                                    </tr>
+						                                    </thead>
+						                                    <tbody>
+
+						                                    </tbody>
+						                                </table>
+						                                <div class="data-loading-container"><img class="loading" src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+						                                <div class="data-empty-container"><p data-i18n="aepage.nohistory"></p></div>
+						                        	</div>
+					                        	</div>
+					                    	</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+	                </section>
+                </div>
+
+                <div id="trade_history_page" class="page">
+					<section class="content-header"><h1>Trade History</h1></section>
+					<section class="content">
+						<p>Todo!</p>
+					</section>
+                </div>
+
+                <div id="settings_page" class="page config">
+					<section class="content-header"><h1 data-i18n="config.settings"></h1></section>
+					<section class="content" id="settings_box">
+
+						<style type="text/css">
+						/*form.settings_form > .form-group > .control-label { width: 120px; }*/
+						</style>
+
+						<div class="box box-primary">
+							<div class="box-header">
+							    <h3 class="box-title" data-i18n="config.general"></h3>
+							</div>
+
+							<form role="form">
+							    <div class="box-body">
+							        <div class="form-group">
+							            <label for="settings_languages" data-i18n="config.languages"></label>
+							            <select name="languages" id="settings_languages" class="form-control" style="width:150px">
+							                <option value="0">English</option>
+											<option value="1">Deutsch</option>
+							                <option value="2">Español</option>
+									        <option value="3">中国的</option>
+							            </select>
+
+							        </div>
+
+									<div class="form-group">
+							            <label for="settings_submit_on_enter" data-i18n="config.submitonenter"></label>
+							            <select name="submit_on_enter" id="settings_submit_on_enter" class="form-control" style="width:150px">
+							                <option value="1" data-i18n="config.yes"></option>
+							                <option value="0" data-i18n="config.no"></option>
+							            </select>
+							            <p class="help-block" data-i18n="config.submitenterwarning"></p>
+							        </div>
+							        <div class="form-group">
+							        <!-- rs -->
+							            <label for="settings_reed_solomon" data-i18n="config.users"></label>
+							            <select name="reed_solomon" id="settings_reed_solomon" class="form-control" style="width:150px">
+							                <option value="1" data-i18n="config.yes"></option>
+							                <option value="0" data-i18n="config.no"></option>
+							            </select>
+							            <p class="help-block" data-i18n="config.rsdesc"></p>
+							        </div>
+									<div class="form-group">
+							            <label for="settings_animate_forging" data-i18n="config.animforging"></label>
+							            <select name="animate_forging" id="settings_animate_forging" class="form-control" style="width:150px">
+							                <option value="1" data-i18n="config.yes"></option>
+							                <option value="0" data-i18n="config.no"></option>
+							            </select>
+							        </div>
+							        <div class="form-group">
+							            <label for="settings_news" data-i18n="config.enablenews"></label>
+							            <select name="news" id="settings_news" class="form-control" style="width:150px">
+							            	<option value="-1" id="settings_news_initial" data-i18n="config.choose"></option>
+							                <option value="1" data-i18n="config.yes"></option>
+							                <option value="0" data-i18n="config.no"></option>
+							            </select>
+							        </div>
+
+							    </div>
+							</form>
+						</div>
+
+						<div class="box box-warning" id="settings_box">
+							<div class="box-header">
+							    <h3 class="box-title" data-i18n="config.formwarnings"></h3>
+							</div>
+
+							<form role="form">
+							    <div class="box-body" style="padding-top:0;">
+							    	<p class="help-block" data-i18n="config.warnamounthigher"></p>
+
+							        <div class="form-group">
+							            <label for="settings_amount_warning" data-i18n="config.maxamwarning"></label>
+	                        			<div class="input-group" style="width:150px">
+							          		<input type="text" name="amount_warning" id="settings_amount_warning" class="form-control" />
+	                        				<span class="input-group-addon">NHZ</span>
+	                        			</div>
+							        </div>
+							        <div class="form-group">
+							            <label for="settings_fee_warning" data-i18n="config.maxfeewarning"></label>
+	                        			<div class="input-group" style="width:150px">
+							          		<input type="text" name="fee_warning" id="settings_fee_warning" class="form-control" />
+	                        				<span class="input-group-addon">NHZ</span>
+	                        			</div>
+							        </div>
+							        <div class="form-group">
+							            <label for="settings_asset_transfer_warning" data-i18n="config.maxaetwarning"></label>
+	                        			<div class="input-group" style="width:150px">
+							          		<input type="text" name="asset_transfer_warning" id="settings_asset_transfer_warning" class="form-control" />
+	                        				<span class="input-group-addon">QNT</span>
+	                        			</div>
+							        </div>
+							    </div>
+							</form>
+						</div>
+
+
+
+                      <!--  <div class="box box-success" style="overflow:visible">
+							<div class="box-header">
+							    <h3 class="box-title" data-i18n="config.themeset"></h3>
+							</div>
+
+							<form role="form">
+							    <div class="box-body">
+									<div class="form-group">
+										<label class="control-label" data-i18n="config.header"></label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text" data-i18n="config.selectcolor"></span> <span class="caret"></span>
+												</button>
+									        	<ul id="header_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="header" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="header_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="header_custom_scheme" data-scheme="header">
+
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label" data-i18n="config.side"></label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text" data-i18n="config.selectcolor"></span> <span class="caret"></span>
+												</button>
+									        	<ul id="sidebar_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="sidebar" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="sidebar_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="sidebar_custom_scheme" data-scheme="sidebar">
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Page BG</label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text">Select Color Scheme</span> <span class="caret"></span>
+												</button>
+									        	<ul id="background_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="background" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="background_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="background_custom_scheme" data-scheme="background">
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label" data-i18n="config.pageheader"></label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text" data-i18n="config.selectcolor"></span> <span class="caret"></span>
+												</button>
+									        	<ul id="page_header_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="page_header" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="page_header_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="page_header_custom_scheme" data-scheme="page_header">
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Boxes</label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text">Select Color Scheme</span> <span class="caret"></span>
+												</button>
+									        	<ul id="box_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="box" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="box_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="box_custom_scheme" data-scheme="box">
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label">Tables</label>
+										<div class="input-group">
+										    <div class="btn-group colors">
+												<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width:140px;text-align:left;">
+													<span class="text">Select Color Scheme</span> <span class="caret"></span>
+												</button>
+									        	<ul id="table_color_scheme" class="dropdown-menu color_scheme_editor" role="menu" data-scheme="table" data-container="body">
+									          	</ul>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" id="table_custom_scheme_group" style="display:none;">
+										<div class="input-group custom_color_scheme" id="table_custom_scheme" data-scheme="table">
+
+										</div>
+									</div>
+
+							    </div>
+							</form>
+                        </div> -->
+
+
+					</section>
+                </div>
+
+                <div id="peers_page" class="page peers">
+               		<section class="content-header"><h1 data-i18n="peers.peers"></h1></section>
+	                <section class="content">
+		                <div class="row">
+		                    <div class="col-lg-3 col-xs-6">
+		                        <div class="small-box bg-olive">
+		                            <div class="inner inner-smaller">
+		                                <h3><span id="peers_uploaded_volume" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+		                                <p data-i18n="peers.uploaded"></p>
+		                            </div>
+		                            <div class="icon-smaller"><i class="fa fa-upload"></i></div>
+    	                            <div class="small-box-footer"></div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-3 col-xs-6">
+		                        <div class="small-box bg-yellow">
+		                            <div class="inner inner-smaller">
+		                            	<h3><span id="peers_downloaded_volume" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+		                                <p data-i18n="peers.downloaded"></p>
+		                            </div>
+		                            <div class="icon-smaller" style="bottom:-12px"><i class="fa fa-download"></i></div>
+    	                            <div class="small-box-footer"></div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-3 col-xs-6">
+		                        <div class="small-box bg-red">
+		                            <div class="inner inner-smaller">
+		                                <h3><span id="peers_connected" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+		                                <p data-i18n="peers.connected"></p>
+		                            </div>
+		                            <div class="icon-smaller" style="bottom:-12px"><i class="fa fa-cloud"></i></div>
+    	                            <div class="small-box-footer"></div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-3 col-xs-6">
+		                        <div class="small-box bg-aqua">
+		                            <div class="inner inner-smaller">
+		                                <h3><span id="peers_up_to_date" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+		                                <p data-i18n="peers.uptodate"></p>
+		                            </div>
+		                            <div class="icon-smaller"><i class="ion ion-pie-graph"></i></div>
+    	                            <div class="small-box-footer"></div>
+		                        </div>
+		                    </div>
+		                </div>
+
+                	   	<div class="data-container data-loading">
+							<table class="table table-striped table-hover" id="peers_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="peers.adress"></th>
+							        <th data-i18n="peers.weight"></th>
+							        <th data-i18n="peers.down"></th>
+							        <th data-i18n="peers.up"></th>
+							        <th data-i18n="peers.appl"></th>
+							        <th data-i18n="peers.platf"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container"><p data-i18n="peers.nopeers"></p></div>
+						</div>
+	                </section>
+                </div>
+
+	            <div id="news_page" class="page news">
+	                <section class="content-header"><h1 data-i18n="news.news"></h1></section>
+	                <section class="content">
+		                <div class="row" id="rss_news_container">
+		                    <div class="col-md-6">
+		                    	<div class="box box-success">
+					                <div class="box-header"><h3 class="box-title">forum.nhzcrypto.org</h3></div>
+					                <div class="box-body">
+					            		<div id="nhzforum_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+					                </div>
+					            </div>
+
+					           <!-- <div class="box box-primary">
+				                    <div class="box-header"><h3 class="box-title">NhzCommunity.org</h3></div>
+				                    <div class="box-body">
+				                		<div id="nhzcommunity_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+				                    </div>
+				                </div>
+
+				                 <div class="box box-warning">
+				                    <div class="box-header"><h3 class="box-title">NhzCrypto.org</h3></div>
+				                    <div class="box-body">
+				                		<div id="nhzcrypto_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+				                    </div>
+				                </div>
+
+				                <div class="box box-success">
+				                    <div class="box-header"><h3 class="box-title">NhzCoin.Blogspot.com</h3></div>
+				                    <div class="box-body">
+				                		<div id="nhzcoin_blogspot_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+				                    </div>
+				                </div> -->
+		                	</div>
+		            	    <div class="col-md-6">
+		            	        <div class="box box-warning">
+				                    <div class="box-header"><h3 class="box-title">reddit.com/r/NeXTHorizon</h3></div>
+				                    <div class="box-body">
+				                		<div id="reddit_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+				                    </div>
+				                </div>
+
+								<!-- <div class="box box-success">
+				                    <div class="box-header"><h3 class="box-title">Nhzer.org</h3></div>
+				                    <div class="box-body">
+				                		<div id="nhzer_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+				                    </div>
+				                </div>
+
+					            <div class="box box-primary">
+					                <div class="box-header"><h3 class="box-title">NextCoin.org Forums</h3></div>
+					                <div class="box-body">
+					            		<div id="nextcoin_forums_news" class="rss_news data-loading"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+					                </div>
+					            </div>
+
+				            </div> -->
+						</div>
+						<div id="rss_news_disabled" style="padding-top: 150px;text-align:center;" data-i18n="[html]news.disabled"></div>
+					</section>
+				</div>
+
+                <div id="blocks_page" class="page blocks">
+               		<section class="content-header">
+               			<h1 data-i18n="blocks.blocks"></h1>
+						<div style="position:absolute;top:9px;right:9px;">
+							<div class="btn-group" data-toggle="buttons" id="blocks_page_type">
+								<label class="btn btn-default active" data-i18n="[html]blocks.allblocks" />
+								<label class="btn btn-default" data-i18n="blocks.byyou" />
+							</div>
+	                	</div>
+               		</section>
+	                <section class="content">
+						<div class="row">
+						    <div class="col-lg-3 col-xs-6">
+						        <div class="small-box bg-olive">
+						            <div class="inner inner-smaller">
+						                <h3><span id="blocks_average_amount" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.avperblock"></p>
+						            </div>
+						            <div class="icon-smaller" style="bottom:-14px"><i class="ion ion-stats-bars"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						    <div class="col-lg-3 col-xs-6">
+						        <div class="small-box bg-yellow">
+						            <div class="inner inner-smaller">
+						                <h3><span id="blocks_average_fee" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.avfee"></p>
+						            </div>
+						            <div class="icon-smaller" style="bottom:-12px"><i class="ion ion-paperclip"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						    <div class="col-lg-3 col-xs-6" id="blocks_transactions_per_hour_box">
+						        <div class="small-box bg-red">
+						            <div class="inner inner-smaller">
+						                <h3><span id="blocks_transactions_per_hour" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.transperh"></p>
+						            </div>
+						            <div class="icon-smaller"><i class="fa fa-shopping-cart"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						    <div class="col-lg-3 col-xs-6" id="blocks_generation_time_box">
+						        <div class="small-box bg-aqua">
+						            <div class="inner inner-smaller">
+						                <h3><span id="blocks_average_generation_time" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.gentime"></p>
+						            </div>
+						            <div class="icon-smaller"><i class="ion ion-clock"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						    <div class="col-lg-3 col-xs-6" id="forged_blocks_total_box">
+						        <div class="small-box bg-yellow">
+						            <div class="inner inner-smaller">
+						                <h3><span id="forged_blocks_total" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.fblocks"></p>
+						            </div>
+						            <div class="icon-smaller"><i class="fa fa-bars"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						    <div class="col-lg-3 col-xs-6" id="forged_fees_total_box">
+						        <div class="small-box bg-red">
+						            <div class="inner inner-smaller">
+						                <h3><span id="forged_fees_total" class="loading_dots"><span>.</span><span>.</span><span>.</span></span></h3>
+						                <p data-i18n="blocks.ffees"></p>
+						            </div>
+						            <div class="icon-smaller"><i class="fa fa-briefcase"></i></div>
+    	                            <div class="small-box-footer"></div>
+						        </div>
+						    </div>
+						</div>
+
+						<div class="data-container data-loading">
+							<table class="table table-striped" id="blocks_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="dashboard.height"></th>
+							        <th data-i18n="dashboard.date"></th>
+							        <th data-i18n="transactions.amount"></th>
+							        <th data-i18n="transactions.fee"></th>
+							        <th data-i18n="dashboard.nrtx"></th>
+							        <th data-i18n="blocks.generator"></th>
+							        <th data-i18n="blocks.payload"></th>
+							        <th data-i18n="blocks.target"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container" data-i18n="blocks.noblocks"></div>
+						</div>
+	                </section>
+				</div>
+            </aside>
+        </div>
+
+		<div id="testnet_warning" style="display:none;position:fixed;bottom:0;left:0;padding:5px;background:red;color:white;border-top-right-radius:5px;"><strong>Warning</strong>: You are connected to the TestNet. Do not use your real password!</div>
+
+		<div id="lockscreen" class="lockscreen">
+			<div id="old_browser_warning" style="display:none;margin-left:auto;margin-right:auto;margin-top:200px;background:white;color:black;padding:20px;width:300px;" data-i18n="lockscreen.oldb"></div>
+
+			<!--
+			<div style="position:absolute;top:10px;left:10px;" id="server_select">
+		        <div class="btn-group">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span class="text">Use localhost</span> <span class="caret"></span>
+					</button>
+		        	<ul class="dropdown-menu" role="menu">
+		          		<li><a href="#">Use localhost</a></li>
+		           		<li><a href="#">Use TestNet</a></li>
+		          	</ul>
+		        </div>
+		    </div>
+		    -->
+
+			<table id="center" style="display:none;width:100%;height:100%;">
+	        	<tr><td style="text-align:center;vertical-align:middle">
+		            <div id="login_panel">
+		            	<div class="callout callout-danger" id="testnet_login" style="max-width:400px;min-width:400px;display:none;" data-i18n="[html]lockscreen.testn"></div>
+
+			            <div class="lockscreen-item">
+			                <div class="lockscreen-credentials">
+			                    <div class="input-group">
+			                        <input type="password" class="form-control" id="login_password" name="login_password" data-i18n="[placeholder]lockscreen.yoursecretphrase" autofocus />
+			                        <div class="input-group-btn">
+			                            <button class="btn btn-flat" onclick="NRS.login($('#login_password').val())"><i class="fa fa-arrow-right text-muted"></i></button>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+
+			            <div id="remember_password_container">
+			            	<input type="checkbox" name="remember_password" id="remember_password" value="1" /> <label for="remember_password" data-i18n="lockscreen.rememberme"></label>
+			            </div>
+
+			            <div id="registration_link">
+			            	<a href="#" style="color: #555555;" onclick="NRS.registerAccount();" data-i18n="lockscreen.noacc"></a>
+			            </div>
+		            </div>
+
+					<div class="panel panel-default" id="welcome_panel" style="display:none;max-width:500px;">
+		                <div class="panel-heading" data-i18n="[html]lockscreen.welcome"></div>
+		                <div class="panel-body">
+		               		<button class="btn btn-primary" id="registration_cancel" onclick="NRS.showLoginScreen();return false;" data-i18n="lockscreen.return"></button>
+					   		&nbsp;&nbsp;
+					   		<button class="btn btn-success" id="registration_cancel" onclick="NRS.registerAccount();return false;" data-i18n="lockscreen.new"></button>
+		                </div>
+		            </div>
+
+		            <div class="panel panel-default" id="account_phrase_custom_panel" style="display:none;max-width:500px;">
+		                <div class="panel-heading" data-i18n="[html]lockscreen.createbtn"></div>
+		                <div class="panel-body">
+							<form class="form-horizontal" role="form" method="post">
+		        				<div class="callout callout-info" style="max-width:500px;" data-i18n="lockscreen.phraseinfo"></div>
+
+		        				<div class="callout callout-danger" data-i18n="[html]lockscreen.phrasewarning"></div>
+
+			            		<div class="form-group">
+			            		    <label for="registration_password" class="col-sm-3 control-label" data-i18n="lockscreen.phrase"></label>
+			            		    <div class="col-sm-9"><input type="password" name="registration_password" class="form-control" id="registration_password" placeholder="" /></div>
+			            		</div>
+			                    <div class="form-group">
+			                        <label for="registration_password_repeat" class="col-sm-3 control-label" data-i18n="lockscreen.repeat"></label>
+			                        <div class="col-sm-9"><input type="password" name="registration_password_repeat" class="form-control" id="registration_password_repeat" placeholder="" /></div>
+			                    </div>
+
+								<div style="text-align:right"><input type="submit" class="btn btn-primary btn-sm" value="Register" />&nbsp;&nbsp;<button class="btn btn-sm btn-default" id="registration_cancel" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="lockscreen.cancel"></button>
+			                    </div>
+		                    </form>
+		                </div>
+		            </div>
+
+		            <div class="panel panel-default" id="account_phrase_generator_panel" style="display:none;max-width:500px">
+		            	<div class="panel-heading" data-i18n="[html]lockscreen.createbtn"></div>
+		                <div class="panel-body">
+		                	<div id="account_phrase_generator_loading">
+		                		<p><span class="loading_text" data-i18n="lockscreen.loadlist"></span><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></p>
+
+								<div style="text-align:center;margin-top:20px;margin-bottom:20px;"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+		                	</div>
+
+		                	<div id="account_phrase_generator_loaded">
+		        				<div class="step_1 account_phrase_generator_steps">
+									<div id="account_phrase_generator_seeder" class="seeder">
+										<p data-i18n="lockscreen.move"></p>
+										<div class="progress progress-striped">
+								            <div class="progress-bar progress-bar-info" id="account_phrase_generator_seed_progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+								                <span class="sr-only" data-i18n="lockscreen.seeded"></span>
+								            </div>
+										</div>
+									</div>
+
+									<div style="text-align:right">
+										<button class="btn btn-sm btn-default" id="registration_cancel" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="lockscreen.cancel"></button>
+									</div>
+		        				</div>
+
+		        				<div class="step_2 account_phrase_generator_steps">
+		        					<div id="account_phrase_generator_start">
+		        						<p data-i18n="lockscreen.genphrase"><span class="loading_dots"><span>.</span><span>.</span><span>.</span></span></p>
+
+										<div style="text-align:center;margin-top:20px;margin-bottom:20px;"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+		        					</div>
+
+		        					<div id="account_phrase_generator_stop" style="display:none">
+			        					<p data-i18n="lockscreen.yourphraseis"></p>
+
+			        					<textarea style="width:100%;height:50px;margin-bottom:10px;" rows="2"></textarea>
+
+			        					<p data-i18n="lockscreen.writedown"></p>
+
+			        					<div class="callout callout-danger" data-i18n="[html]lockscreen.dontdisclose"></div>
+
+										<div style="text-align:right">
+											<input type="submit" class="btn btn-primary btn-sm" value="Next" onclick="$('.step_2').hide();$('.step_3').show();return false;" />&nbsp;&nbsp;<button class="btn btn-sm btn-default" id="registration_cancel" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="lockscreen.cancel"></button>
+										</div>
+		        					</div>
+		        				</div>
+
+		        				<div class="step_3 account_phrase_generator_steps">
+		        					<p data-i18n="lockscreen.important"></p>
+
+		        					<div class="callout callout-danger" style="display:none" data-i18n="lockscreen.notcorrect"></div>
+
+		        					<textarea style="width:100%;height:50px;margin-bottom:10px;" rows="2"></textarea>
+
+		        					<div style="text-align:right">
+										<input type="submit" class="btn btn-primary btn-sm" value="Next" onclick="NRS.verifyGeneratedPassphrase();return false;" />&nbsp;&nbsp;<button class="btn btn-sm btn-default" id="registration_cancel" onclick="NRS.showLoginOrWelcomeScreen();return false;" data-i18n="lockscreen.cancel"></button>
+									</div>
+		        				</div>
+		                	</div>
+		                </div>
+						<div id="custom_passphrase_link" style="margin-top:30px;text-align:center;display:none;">
+			    			<a href="#" style="color: #555555;" onclick="NRS.registerUserDefinedAccount();" data-i18n="lockscreen.chooseown"></a>
+						</div>
+		            </div>
+
+				</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="modal fade" id="lease_balance_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.leaseyourbal"></h4>
+		      		</div>
+					<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger never_hide" id="lease_balance_message" data-i18n="[html]modals.leasewarning"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="lease_balance_recipient" data-i18n="modals.rec"></label>
+								<div class="input-group">
+								    <input type="text" class="form-control" name="recipient" id="lease_balance_recipient" data-i18n="[placeholder]modals.recacc" autofocus tabindex="1" />
+								    <span class="input-group-btn btn-group recipient_selector">
+								    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></button>	<ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;"></ul>
+								    </span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-4 col-sm-4 col-md-4">
+									<label for="lease_balance_period" data-i18n="[html]modals.period"></label>
+									<input type="number" name="period" id="lease_balance_period" class="form-control" step="any" min="1440" max="32767" placeholder="Period" data-default="1440" value="1440" tabindex="2">
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-4">
+									<div class="form-group">
+										<label for="lease_balance_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="lease_balance_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="4">
+									</div>
+								</div>
+								<div class="col-xs-4 col-sm-4 col-md-4">
+									<div class="form-group">
+										<label for="lease_balance_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="lease_balance_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="1" tabindex="4">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="lease_balance_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="lease_balance_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+					</div>
+		      		<div class="modal-footer" style="margin-top:0;">
+		      			<input type="hidden" name="success_message" value="Your balance will be leased out in 1440 blocks." />
+		      			<input type="hidden" name="request_type" value="leaseBalance" />
+		      			<input type="hidden" name="converted_account_id" value="" />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.leasebalancebtn"></button>
+		      		</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="stop_forging_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]modals.confirmforgingstop"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<p class="show_secret_phrase" data-i18n="modals.confirmphrase"></p>
+							<p class="hide_secret_phrase" style="display:none" data-i18n="modals.confirmphrasebtn"></p>
+							<div class="callout callout-danger remote_warning" style="display:none" data-i18n="[html]modals.warnsendtoserver"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group secret_phrase">
+								<label for="stop_forging_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="stop_forging_password" class="form-control" placeholder="" tabindex="1">
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="request_type" value="stopForging" />
+			      		<input type="hidden" name="success_message" value="Forging has been stopped." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="modals.continueforging"></button>
+				        <button type="button" class="btn btn-primary" id="stop_forging_button" data-loading-text="Submitting..." data-i18n="[html]modals.stopforging"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="start_forging_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.confirmforgingstart"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<p class="show_secret_phrase" data-i18n="modals.confirmforgingphrase"></p>
+							<p class="hide_secret_phrase" style="display:none" data-i18n="modals.confirmforgingphraseclick"></p>
+							<div class="callout callout-danger remote_warning" style="display:none" data-i18n="[html]modals.warnsendtoserver"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group secret_phrase">
+								<label for="start_forging_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="start_forging_password" class="form-control" placeholder="" tabindex="1">
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="request_type" value="startForging" />
+			      		<input type="hidden" name="success_message" value="Forging has been started." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" id="start_forging_button" data-loading-text="Submitting..." data-i18n="modals.startforging"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="cancel_order_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.confirmordercancel"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<p data-i18n="modals.confirmordercancelphrase"></p>
+							<input type="hidden" name="order" id="cancel_order_order" value="" />
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="cancel_order_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="cancel_order_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="2">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="cancel_order_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="cancel_order_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="3">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="cancel_order_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="cancel_order_password" class="form-control" placeholder="" tabindex="1">
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="cancel_order_type"  id="cancel_order_type" />
+			      		<input type="hidden" name="request_type" value="cancelOrder" />
+			      		<input type="hidden" name="success_message" value="The __ order has been cancelled." />
+						<input type="hidden" name="error_message" value="An unknown error occured! The order may or may not have been cancelled." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="modals.nocancel"></button>
+				        <button type="button" class="btn btn-primary" id="cancel_order_button" data-loading-text="Submitting..." data-i18n="modals.cancelorder"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="asset_order_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]modals.confirmorder"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label data-i18n="modals.orderdesc"></label>
+								<p id="asset_order_description"></p>
+								<input type="hidden" name="asset" id="asset_order_asset" value="" />
+								<input type="hidden" name="quantityQNT" id="asset_order_quantity" value="" />
+								<input type="hidden" name="priceNQT" id="asset_order_price" value="" />
+								<input type="hidden" name="feeNQT" id="asset_order_fee" value="" />
+								<input type="hidden" name="deadline" id="asset_order_deadline" data-default="24" value="24" />
+							</div>
+							<div class="form-group">
+								<label data-i18n="[html]modals.total"></label>
+								<p id="asset_order_total"></p>
+							</div>
+							<div class="form-group">
+								<label data-i18n="modals.fee"></label>
+								<p id="asset_order_fee_paid"></p>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="asset_order_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="asset_order_password" class="form-control" placeholder="" tabindex="1">
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="asset_order_type"  id="asset_order_type" />
+			      		<input type="hidden" name="request_type" value="orderAsset" />
+			      		<input type="hidden" name="success_message" value="The __ order has been submitted." />
+			      		<input type="hidden" name="error_message" value="An unknown error occured! The order may or may not have gone through." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." id="asset_order_modal_button"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="transfer_asset_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.transferasset"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label data-i18n="modals.asset"></label>
+								<p><span id="transfer_asset_name"></span><span id="transfer_asset_available" style="font-style:italic"></span></p>
+								<input type="hidden" name="asset" id="transfer_asset_asset" value="" />
+								<input type="hidden" name="decimals" id="transfer_asset_decimals" value="" />
+							</div>
+							<div class="form-group">
+								<label for="transfer_asset_recipient" data-i18n="modals.rec"></label>
+								<div class="input-group">
+								    <input type="text" class="form-control" name="recipient" id="transfer_asset_recipient" data-i18n="[placeholder]modals.recacc" autofocus tabindex="1" />
+								    <span class="input-group-btn btn-group recipient_selector">
+								    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></button>	<ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;"></ul>
+								    </span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="transfer_asset_comment" data-i18n="modals.comment"></label>
+								<textarea class="form-control" id="transfer_asset_comment" name="comment" rows="3" tabindex="2" placeholder="Optional"></textarea>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="transfer_asset_quantity" data-i18n="modals.qty"></label>
+						                <input type="number" name="quantity" id="transfer_asset_quantity" class="form-control" step="any" min="0" placeholder="Quantity" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3">
+									<div class="form-group">
+										<label for="transfer_asset_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="transfer_asset_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="4">
+									</div>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3">
+									<div class="form-group">
+										<label for="transfer_asset_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="transfer_asset_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="1" tabindex="5">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="transfer_asset_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="transfer_asset_password" class="form-control" placeholder="" tabindex="6">
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+					</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="transferAsset" />
+						<input type="hidden" name="success_message" value="The asset has been transferred!" />
+						<input type="hidden" name="error_message" value="An unknown error occured! Asset may or may not be transferred." />
+						<input type="hidden" name="converted_account_id" value="" />
+				     	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.transferasset"></button>
+					</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="add_asset_bookmark_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="aepage.addasset"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="add_asset_bookmark_id" data-i18n="[html]aepage.assetoraccountid"></label>
+								<input type="text" class="form-control" name="id" id="add_asset_bookmark_id" data-i18n="[placeholder]aepage.id" autofocus tabindex="1" />
+							</div>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="addAssetBookmark" />
+						<input type="hidden" name="success_message" value="The asset has been added!" />
+						<input type="hidden" name="error_message" value="An unknown error occured!" />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="aepage.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="aepage.addasset"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="add_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.addcontact"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger never_hide" data-i18n="[html]modals.contactsremember"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="add_contact_name" data-i18n="modals.name"></label>
+								<input type="text" class="form-control" name="name" id="add_contact_name" placeholder="Contact Name" autofocus tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="add_contact_account_id" data-i18n="modals.accid"></label>
+								<input type="text" class="form-control" name="account_id" id="add_contact_account_id" placeholder="NHZ Account ID" tabindex="2" />
+							</div>
+							<div class="form-group">
+								<label for="add_contact_email" data-i18n="modals.mail"></label>
+								<input type="text" class="form-control" name="email" id="add_contact_email" placeholder="contact@email.com" tabindex="3" />
+							</div>
+							<div class="form-group">
+								<label for="add_contact_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="add_contact_description" name="description" rows="3" tabindex="4" placeholder="Optional"></textarea>
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="addContact" />
+						<input type="hidden" name="success_message" value="The contact has been created!" />
+						<input type="hidden" name="error_message" value="An unknown error occured!" />
+						<input type="hidden" name="converted_account_id" value="" />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="contacts.add"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="update_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.update"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="update_contact_name" data-i18n="modals.name"></label>
+								<input type="text" class="form-control" name="name" id="update_contact_name" placeholder="Contact Name" autofocus tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="update_contact_account_id" data-i18n="modals.accid"></label>
+								<input type="text" class="form-control" name="account_id" id="update_contact_account_id" placeholder="NHZ Account ID" tabindex="2" />
+							</div>
+							<div class="form-group">
+								<label for="update_contact_email" data-i18n="modals.mail"></label>
+								<input type="text" class="form-control" name="email" id="update_contact_email" placeholder="contact@email.com"
+								        tabindex="3" />
+							</div>
+							<div class="form-group">
+								<label for="update_contact_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="update_contact_description" name="description" rows="3" tabindex="4" placeholder="Optional"></textarea>
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="contact_id" id="update_contact_id" value="" />
+						<input type="hidden" name="request_type" value="updateContact" />
+						<input type="hidden" name="success_message" value="The contact has been updated successfully!" />
+						<input type="hidden" name="error_message" value="An unknown error occured!" />
+						<input type="hidden" name="converted_account_id" value="" />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.update"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="delete_contact_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.deletecontact"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger" data-i18n="modals.deletecontactconf"></div>
+							<p data-i18n="[html]modals.deletecontactinfo"></p>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="contact_id" id="delete_contact_id" value="" />
+						<input type="hidden" name="account_id" id="delete_contact_account_id" value="" />
+						<input type="hidden" name="request_type" value="deleteContact" />
+						<input type="hidden" name="success_message" value="The contact has been deleted successfully!" />
+						<input type="hidden" name="error_message" value="An unknown error occured!" />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="modals.contactnodel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.contactyesdel"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="issue_asset_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.issueasset"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger never_hide" data-i18n="[html]modals.warningnochange"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="issue_asset_name" data-i18n="[html]modals.assetname"></label>
+								<input type="text" class="form-control" name="name" id="issue_asset_name" placeholder="Asset Name" autofocus tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="issue_asset_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="issue_asset_description" name="description" rows="3" tabindex="3"></textarea>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="issue_asset_quantity" data-i18n="modals.qty"></label>
+						                <input type="number" name="quantity" id="issue_asset_quantity" class="form-control" min="1" placeholder="Quantity" tabindex="4">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="issue_asset_decimals" data-i18n="[html]modals.decimals"></label>
+						                <input type="number" name="decimals" id="issue_asset_decimals" class="form-control" min="0" max="8" placeholder="Decimals" data-default="0" value="0" tabindex="5">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="issue_asset_fee" data-i18n="[html]modals.issuefee"></label>
+										<input type="number" name="feeNHZ" id="issue_asset_fee" class="form-control" placeholder="Fee" step="any" min="1000" data-default="1000" value="1000" tabindex="6">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="issue_asset_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="issue_asset_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="7">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="issue_asset_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="issue_asset_password" class="form-control" placeholder="" tabindex="8">
+							</div>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="issueAsset" />
+						<input type="hidden" name="success_message" value="The asset has been created and will be available soon." />
+						<input type="hidden" name="error_message" value="An unknown error occured! Asset may or may not be created." />
+				    	<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.issueasset"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="create_poll_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="polls.create"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="create_poll_name" data-i18n="modals.name"></label>
+								<input type="text" class="form-control" name="name" id="create_poll_name" placeholder="Poll Name" autofocus tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="create_poll_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="create_poll_description" name="description" rows="3" tabindex="2"></textarea>
+							</div>
+							<div class="form-group" id="create_poll_answers">
+								<label data-i18n="modals.answers"></label>
+								 <div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control create_poll_answers" name="create_poll_answers[]" placeholder="Answer" tabindex="3" />
+										<span class="input-group-btn">
+											<button class="btn remove_answer" type="button"><i class="fa fa-minus" style="color:white"></i></button>
+										</span>
+									</div>
+								</div>
+								 <div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control create_poll_answers" name="create_poll_answers[]" placeholder="Answer" tabindex="3" />
+										<span class="input-group-btn">
+											<button class="btn remove_answer" type="button"><i class="fa fa-minus" style="color:white"></i></button>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<a href="#" class="btn btn-primary" id="create_poll_answers_add" data-i18n="[html]modals.addanswer"></a>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="create_poll_min_options" data-i18n="modals.minnrchoice"></label>
+										<input type="number" name="minNumberOfOptions" id="create_poll_min_options" min="1" class="form-control" placeholder="" data-default="1" value="1" tabindex="4">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="create_poll_max_options" data-i18n="modals.maxnrchoice"></label>
+										<input type="number" name="maxNumberOfOptions" id="create_poll_max_options" min="1" class="form-control" placeholder="" data-default="1" value="1" tabindex="5">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="create_poll_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="create_poll_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="create_poll_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="create_poll_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="4">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group secret_phrase">
+								<label for="create_poll_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="create_poll_password" class="form-control" placeholder="" tabindex="8">
+							</div>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="createPoll" />
+						<input type="hidden" name="success_message" value="The poll has been created!" />
+						<input type="hidden" name="error_message" value="An unknown error occured! Poll may or may not be created." />
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+						&nbsp;&nbsp;
+						<button type="button" class="btn btn-primary" data-loading-text="Submitting...">Create Poll</button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- http://bootsnipp.com/search?q=poll -->
+
+		<div class="modal fade" id="cast_vote_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.castvote"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="cast_vote_poll_name" data-i18n="modals.name"></label>
+								<input type="text" class="form-control" name="name" id="cast_vote_poll_name" placeholder="Poll Name" autofocus tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="cast_vote_poll_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="cast_vote_poll_description" name="description" rows="3" tabindex="2"></textarea>
+							</div>
+							<div class="form-group" id="cast_vote_answers">
+								<label data-i18n="modals.answers"></label>
+								 <div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control cast_vote_answers" name="cast_vote_answers[]" placeholder="Answer" tabindex="3" />
+										<span class="input-group-btn">
+											<button class="btn remove_answer" type="button"><i class="fa fa-minus" style="color:white"></i></button>
+										</span>
+									</div>
+								</div>
+								 <div class="form-group">
+									<div class="input-group">
+										<input type="text" class="form-control cast_vote_answers" name="cast_vote_answers[]" placeholder="Answer" tabindex="3" />
+										<span class="input-group-btn">
+											<button class="btn remove_answer" type="button"><i class="fa fa-minus" style="color:white"></i></button>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group secret_phrase">
+								<label for="cast_vote_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="cast_vote_password" class="form-control" placeholder="" tabindex="8">
+							</div>
+						</form>
+			    	</div>
+					<div class="modal-footer" style="margin-top:0;">
+						<input type="hidden" name="request_type" value="castVote" />
+						<input type="hidden" name="success_message" value="Your vote has been cast!" />
+						<input type="hidden" name="error_message" value="An unknown error occured! Vote may or may not be cast." />
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+						&nbsp;&nbsp;
+						<button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.castvote"></button>
+				    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="send_money_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.sendnhz"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="send_money_recipient" data-i18n="modals.rec"></label>
+								<div class="input-group">
+								    <input type="text" class="form-control" name="recipient" id="send_money_recipient" placeholder="Recipient Account" autofocus tabindex="1" />
+								    <span class="input-group-btn btn-group recipient_selector">
+								    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></button>														<ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;"></ul>
+								    </span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="send_money_amount" data-i18n="modals.amount"></label>
+						                <input type="text" name="amountNHZ" id="send_money_amount" step="any" min="0" class="form-control" placeholder="Amount" tabindex="2">
+									</div>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3">
+									<div class="form-group">
+										<label for="send_money_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="send_money_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-3 col-sm-3 col-md-3">
+									<div class="form-group">
+										<label for="send_money_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="send_money_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="4">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="send_money_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="send_money_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+					</div>
+		      		<div class="modal-footer" style="margin-top:0;">
+		      			<input type="hidden" name="failure_message" value="An unknown error occured! NHZ may or may not be sent." />
+		      			<input type="hidden" name="request_type" value="sendMoney" />
+		      			<input type="hidden" name="converted_account_id" value="" />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.sendnhz"></button>
+		      		</div>
+		    	</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade" id="send_message_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		   		<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		       		 	<h4 class="modal-title" data-i18n="nav.sendmsg"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form" id="send_message_form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="send_message_recipient" data-i18n="modals.rec"></label>
+								<div class="input-group">
+								    <input type="text" class="form-control" name="recipient" id="send_message_recipient" placeholder="Recipient Account" autofocus tabindex="1" />
+								    <span class="input-group-btn btn-group recipient_selector">
+								    	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></button>	<ul class="dropdown-menu scrollable-menu" role="menu" style="right:0;left:auto;"></ul>
+								    </span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="send_message_message" data-i18n="modals.msg"></label>
+								<textarea class="form-control" id="send_message_message" name="message" rows="4" tabindex="2"></textarea>
+								<div><label for="send_message_encrypt" style="font-weight:normal;" data-i18n="[html]modals.encrypt"></label></div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="send_message_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="send_message_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="send_message_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="send_message_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="4">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="send_message_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="send_message_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+						<div class="callout account_info" style="display:none;margin-bottom: 0;"></div>
+					</div>
+			       	<div class="modal-footer" style="margin-top:0;">
+			       		<input type="hidden" name="request_type" value="sendMessage" />
+			       		<input type="hidden" name="error_message" value="An unknown error occured! Message may or may not be sent." />
+			       		<input type="hidden" name="converted_account_id" value="" />
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+			     	    <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="nav.sendmsg"></button>
+			      	</div>
+		    	</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade" id="account_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		   		<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		       		 	<h4 class="modal-title" data-i18n="modals.setaccinfo"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="account_info_name" data-i18n="modals.name"></label>
+								<input type="text" class="form-control" name="name" id="account_info_name" placeholder="Your Name" tabindex="1" />
+							</div>
+							<div class="form-group">
+								<label for="account_info_description" data-i18n="modals.desc"></label>
+								<textarea class="form-control" id="account_info_description" name="description" rows="4" tabindex="2"></textarea>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="account_info_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="account_info_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="account_info_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="account_info_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="4">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="account_info_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="account_info_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+					</div>
+			       	<div class="modal-footer" style="margin-top:0;">
+			       		<input type="hidden" name="request_type" value="setAccountInfo" />
+			       		<input type="hidden" name="success_message" value="Your account info has been saved successfully." />
+						<button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+			     	    <button type="button" class="btn btn-primary" data-loading-text="Submitting..." data-i18n="modals.updateaccinfo"></button>
+			      	</div>
+		    	</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade" id="register_alias_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.registealias"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="form-group">
+								<label for="register_alias_type" data-i18n="modals.type"></label>
+								<select class="form-control" name="type" id="register_alias_type">
+									<option value="uri" data-i18n="modals.uri"></option>
+									<option value="account" data-i18n="modals.account"></option>
+									<option value="general" data-i18n="modals.other"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="register_alias_alias" data-i18n="modals.alias"></label>
+								<input type="text" class="form-control" name="aliasName" id="register_alias_alias" placeholder="Alias" tabindex="1" />
+								<p id="register_alias_alias_noneditable" style="display:none"></p>
+							</div>
+							<div class="form-group">
+								<label for="register_alias_uri" id="register_alias_uri_label" data-i18n="modals.uri"></label>
+								<input type="text" class="form-control" name="aliasURI" id="register_alias_uri" placeholder="URI" tabindex="2" />
+								<p class="help-block" id="register_alias_help"></p>
+							</div>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="register_alias_fee" data-i18n="modals.fee"></label>
+										<input type="number" name="feeNHZ" id="register_alias_fee" class="form-control" step="any" min="1" placeholder="Fee" data-default="1" value="1" tabindex="3">
+									</div>
+								</div>
+								<div class="col-xs-6 col-sm-6 col-md-6">
+									<div class="form-group">
+										<label for="register_alias_deadline" data-i18n="modals.deadline"></label>
+										<input type="number" name="deadline" id="register_alias_deadline" class="form-control" placeholder="Deadline" min="1" data-default="24" value="24" tabindex="4">
+									</div>
+								</div>
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="register_alias_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="register_alias_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="register_alias_alias_update" id="register_alias_alias_update" value="0" />
+			      		<input type="hidden" name="request_type" value="setAlias" />
+			      		<input type="hidden" name="success_message" value="Your alias has been registered!" />
+			      		<input type="hidden" name="error_message" value="An unknown error occured! Alias may or may not be registered." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" id="register_alias_button" data-loading-text="Submitting..." data-i18n="modals.reg"></button>
+			    	</div>
+				</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade modal-no-hide" id="generate_token_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.genwebsitetoken"></h4>
+		      		</div>
+			      	<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger remote_warning" style="display:none" data-i18n="[html]modals.warnsendtoserver"></div>
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<div class="callout callout-info" id="generate_token_token" style="display:none;"></div>
+							<div class="form-group">
+								<label for="generate_token_website" data-i18n="modals.site"></label>
+								<input type="text" class="form-control" name="website" id="generate_token_website" placeholder="Website URL" tabindex="1" value="http://" />
+							</div>
+							<div class="form-group secret_phrase">
+								<label for="generate_token_password" data-i18n="modals.phrase"></label>
+								<input type="password" name="secretPhrase" id="generate_token_password" class="form-control" placeholder="" tabindex="5">
+							</div>
+						</form>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="request_type" value="generateToken" />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" id="register_alias_button" data-loading-text="Submitting..." data-i18n="modals.gen"></button>
+			    	</div>
+				</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade" id="block_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]modals.blcinfo"></h4>
+		     		</div>
+			      	<div class="modal-body">
+			      		<div class="tabbable">
+							<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+								<li class="active"><a href="#block_info_transactions_tab" data-toggle="tab" id="block_info_transactions_tab_link" data-i18n="transactions.transactions"></a></li>
+								<li><a href="#block_info_details_tab" data-toggle="tab" data-i18n="modals.blcdetails"></a></li>
+							</ul>
+							<div class="tab-content">
+							    <div class="tab-pane active" id="block_info_transactions_tab" style="max-height:350px;overflow:auto;">
+									<table class="table table-striped" id="block_info_transactions_table" style="margin-bottom:0">
+										<thead>
+									    <tr>
+									        <th data-i18n="dashboard.date"></th>
+									        <th data-i18n="transactions.amount"></th>
+									        <th data-i18n="transactions.fee"></th>
+									        <th data-i18n="modals.to"></th>
+									        <th data-i18n="modals.from"></th>
+									    </tr>
+									    </thead>
+									    <tbody>
+
+									    </tbody>
+									</table>
+									<div id="block_info_transactions_none" style="display:none;" data-i18n="modals.noblctrans"></div>
+							    </div>
+							    <div class="tab-pane" id="block_info_details_tab" style="max-height:350px;overflow:auto;">
+									<table class="table table-striped" id="block_info_details_table" style="margin-bottom:0">
+									    <tbody>
+
+									    </tbody>
+									</table>
+							    </div>
+							</div>
+			      		</div>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			     	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="transaction_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]modals.trans"></h4>
+		     		</div>
+			      	<div class="modal-body">
+			      		<div class="tabbable">
+							<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+								<li class="active"><a href="#transaction_info_tab" data-toggle="tab" id="transaction_info_tab_link" data-i18n="modals.info"></a></li>
+								<li><a href="#transaction_info_details_tab" data-toggle="tab" data-i18n="modals.transdetail"></a></li>
+							</ul>
+							<div class="tab-content">
+							    <div class="tab-pane active" id="transaction_info_tab">
+							    	<div id="transaction_info_callout" class="callout callout-info" style="display:none;"></div>
+
+									<div id="transaction_info_output" style="display: none;"></div>
+
+						      		<table class="table table-striped" id="transaction_info_table" style="display:none;margin-bottom: 0;">
+						      		    <tbody>
+
+						      		    </tbody>
+						      		</table>
+							    </div>
+							    <div class="tab-pane" id="transaction_info_details_tab" style="max-height:350px;overflow:auto;">
+									<table class="table table-striped" id="transaction_info_details_table" style="margin-bottom:0;table-layout:fixed;">
+									    <tbody>
+
+									    </tbody>
+									</table>
+							    </div>
+							</div>
+			      		</div>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="modals.close"></button>
+			     	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="alias_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]alias.infomodalalias></h4>
+		     		</div>
+			      	<div class="modal-body">
+			      		<table class="table table-striped" id="alias_info_table" style="margin-bottom: 0;">
+			      		    <tbody>
+
+			      		    </tbody>
+			      		</table>
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="alias.close"></button>
+			     	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="user_info_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wider">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="[html]modals.accountinfo"></h4>
+		     		</div>
+			      	<div class="modal-body">
+				     	<div class="callout callout-info" data-i18n="[html]modals.accdetailedinfo"></div>
+
+						<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+							<li class="active" id="user_info_transactions" data-tab="transactions"><a href="#" data-i18n="transactions.transactions"></a></li>
+							<li id="user_info_assets" data-tab="assets"><a href="#" data-i18n="modals.assets"></a></li>
+							<li id="user_info_aliases" data-tab="aliases"><a href="#" data-i18n="modals.aliases"></a></li>
+							<li id="user_info_description" data-tab="description"><a href="#" data-i18n="contacts.desc"></a></li>
+							<li id="user_info_actions" data-tab="actions"><a href="#" data-i18n="contacts.actions"></a></li>
+						</ul>
+
+						<div class="data-container data-loading user_info_modal_content" id="user_info_modal_transactions" style="display:none;max-height:350px;overflow:auto;">
+							<table class="table table-striped" id="user_info_modal_transactions_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="transactions.date"></th>
+							        <th data-i18n="transactions.type"></th>
+							        <th colspan="2" data-i18n="transactions.amount"></th>
+							        <th data-i18n="transactions.fee"></th>
+							        <th data-i18n="transactions.account"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container" style="padding-top:10px" data-i18n="modals.usernotrans"></div>
+						</div>
+
+						<div class="data-container data-loading user_info_modal_content" id="user_info_modal_aliases" style="display:none;max-height:350px;overflow:auto;">
+							<table class="table table-striped" id="user_info_modal_aliases_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="alias.aliass"></th>
+							        <th data-i18n="modals.uri"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container" style="padding-top:10px" data-i18n="modals.usernoali"></div>
+						</div>
+
+						<div class="data-container data-loading user_info_modal_content" id="user_info_modal_assets" style="display:none;max-height:350px;overflow:auto;">
+							<table class="table table-striped" id="user_info_modal_assets_table">
+								<thead>
+							    <tr>
+							        <th data-i18n="modals.asset"></th>
+							        <th data-i18n="aepage.qty"></th>
+							        <th data-i18n="myassets.total"></th>
+							        <th data-i18n="myassets.percent"></th>
+							    </tr>
+							    </thead>
+							    <tbody>
+
+							    </tbody>
+							</table>
+							<div class="data-loading-container"><img src="img/loading_indicator.gif" alt="Loading..." width="32" height="32" /></div>
+							<div class="data-empty-container" style="padding-top:10px" data-i18n="modals.usernoassets"></div>
+						</div>
+
+						<div class="user_info_modal_content data-never-loading" id="user_info_modal_description" style="display:none;"></div>
+
+						<div class="user_info_modal_content data-never-loading" id="user_info_modal_actions" style="display:none;">
+							<div class="row">
+								<div class="col-xs-6 col-md-6" style="margin-left:auto;margin-right:auto;float:none;">
+									<button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#send_money_modal" data-account="" data-i18n="modals.sendnhz"></button>
+									<button type="button" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#send_message_modal" data-account="" data-i18n="dashboard.sendmsg"></button>
+									<button type="button" id="user_info_modal_add_as_contact" class="btn btn-default btn-lg btn-block" data-toggle="modal" data-target="#add_contact_modal" data-account="" data-i18n="modals.addascontact"></button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="modals.close"></button>
+			     	</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="nrs_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+			    <div class="modal-content">
+			     	<div class="modal-header">
+			        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        	<h4 class="modal-title" data-i18n="modals.nrsinfo"></h4>
+			      	</div>
+			      	<div class="modal-body">
+			      		<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+							<li class="active" id="nrs_modal_state_nav" data-tab="state"><a href="#" data-i18n="modals.nrsstate"></a></li>
+							<li data-tab="update"><a href="#" data-i18n="modals.nrsupdate"></a></li>
+						</ul>
+
+						<div id="nrs_modal_update" class="nrs_modal_content" style="display:none">
+							<div id="nrs_update_explanation" class="nrs_message">
+								<span id="nrs_update_explanation_blockchain_sync" data-i18n="modals.chaindownload"></span>
+								<span id="nrs_update_explanation_testnet" data-i18n="modals.nonrsupdate"></span>
+								<span id="nrs_update_explanation_up_to_date" data-i18n="modals.havelatest"></span>
+								<span id="nrs_update_explanation_new_release" data-i18n="[html]modals.newupdate"></span>
+								<span id="nrs_update_explanation_new_beta" data-i18n="[html]modals.newexperimental"></span>
+								<span id="nrs_update_explanation_new_choice" data-i18n="[html]modals.newboth"></span>
+							</div>
+
+							<div id="nrs_update_drop_zone" data-i18n="modals.drop"></div>
+							<div id="nrs_update_result"></div>
+							<div id="nrs_update_hashes" style="display:none;padding-top:10px;">
+								<table style="width:100%">
+								    <tr><td style="background-color:#efefef;font-weight:bold;" data-i18n="modals.version"></td><td><span id="nrs_update_hash_version"></span></td></tr>
+								    <tr><td style="background-color:#efefef;font-weight:bold;" data-i18n="modals.downloadhash"></td><td><span id="nrs_update_hash_download"></span></td></tr>
+								    <tr><td style="background-color:#efefef;font-weight:bold;" data-i18n="modals.officialhash"></td><td><span id="nrs_update_hash_official"></span></td></tr>
+								</table>
+							</div>
+
+							<div id="nrs_update_hash_progress">&nbsp;</div>
+
+							<div style="display:none">
+								<iframe id="nrs_update_iframe"></iframe>
+								<input type="file" id="nrs_update_file_select" name="files[]" />
+							</div>
+						</div>
+
+						<div id="nrs_modal_state" class="nrs_modal_content" style="display:none">
+							<table class="table table-striped" id="nrs_node_state_table" style="margin-bottom:0;">
+							    <tbody>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.version"></td><td><span id="nrs_node_state_version"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.blocks"></td><td><span id="nrs_node_state_numberOfBlocks"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.lastblock"></td><td><span id="nrs_node_state_lastBlock"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nraccounts"></td><td><span id="nrs_node_state_numberOfAccounts"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.lastfeeder"></td><td><span id="nrs_node_state_lastBlockchainFeeder"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrunlocked"></td><td><span id="nrs_node_state_numberOfUnlockedAccounts"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.lastfeederh"></td><td><span id="nrs_node_state_lastBlockchainFeederHeight"></span></td>
+								    	<td style="font-weight: bold" data-i18n="modals.nrpeers"></td><td><span id="nrs_node_state_numberOfPeers"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.totalmemory"></td><td><span id="nrs_node_state_totalMemory"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrtransactions"></td><td><span id="nrs_node_state_numberOfTransactions"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.freememory"></td><td><span id="nrs_node_state_freeMemory"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nraliases"></td><td><span id="nrs_node_state_numberOfAliases"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.maxmemory"></td><td><span id="nrs_node_state_maxMemory"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrorders"></td><td><span id="nrs_node_state_numberOfOrders"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.processors"></td><td><span id="nrs_node_state_availableProcessors"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrassets"></td><td><span id="nrs_node_state_numberOfAssets"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.difficulty"></td><td><span id="nrs_node_state_cumulativeDifficulty"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrtrades"></td><td><span id="nrs_node_state_numberOfTrades"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.totalebal"></td><td><span id="nrs_node_state_totalEffectiveBalanceNHZ"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrpolls"></td><td><span id="nrs_node_state_numberOfPolls"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.time"></td><td><span id="nrs_node_state_time"></span></td>
+							    		<td style="font-weight: bold" data-i18n="modals.nrvotes"></td><td><span id="nrs_node_state_numberOfVotes"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.isscanning"></td><td><span id="nrs_node_state_isScanning"></span></td>
+							    		<td style="font-weight: bold">&nbsp;</td><td>&nbsp;</td>
+							    	</tr>
+
+							    </tbody>
+						 	</table>
+						</div>
+					</div>
+					<div class="modal-footer" style="margin-top:0;">
+			        	<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="modals.close"></button>
+			      	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="account_details_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+			    <div class="modal-content">
+			     	<div class="modal-header">
+			        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        	<h4 class="modal-title" data-i18n="modals.accdet"></h4>
+			      	</div>
+			      	<div class="modal-body">
+			      		<ul class="nav nav-pills nav-justified" style="margin-bottom:10px">
+							<li class="active" id="account_details_balance_nav" data-tab="balance"><a href="#" data-i18n="modals.accdet"></a></li>
+							<li data-tab="leasing"><a href="#" data-i18n="modals.accleas"></a></li>
+						</ul>
+
+						<div id="account_details_modal_balance" class="account_details_modal_content" style="display:none">
+				      		<div class="callout callout-danger" id="account_balance_warning" style="display:none"></div>
+
+							<table class="table table-striped" id="account_balance_table" style="margin-bottom:0;table-layout:fixed;">
+							    <tbody>
+							    	<tr>
+							    		<td style="font-weight: bold;width:180px;" data-i18n="modals.accountid"></td><td><span id="account_balance_account_id"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.newadressformat"></td><td><span id="account_balance_account_rs"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.accbalance"></td><td><span id="account_balance_balance"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.unconfbal"></td><td><span id="account_balance_unconfirmed_balance"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.confbal"></td><td><span id="account_balance_guaranteed_balance"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.efbal"></td><td><span id="account_balance_effective_balance"></span></td>
+							    	</tr>
+							    	<tr>
+							    		<td style="font-weight: bold" data-i18n="modals.pubkey"></td><td><span id="account_balance_public_key" style="word-break:break-all;word-wrap: break-word;"></span></td>
+							    	</tr>
+							    </tbody>
+						 	</table>
+						 </div>
+
+						<div id="account_details_modal_leasing" class="account_details_modal_content" style="display:none">
+							<div id="account_leasing_status" class="nrs_message" style="display:none"></div>
+							<div id="account_lessor_container" style="display:none;max-height:350px;overflow:auto;">
+								<table class="table table-striped" id="account_lessor_table" style="margin-bottom:0">
+									<thead>
+								    <tr>
+								        <th data-i18n="modals.lessor"></th>
+								    </tr>
+								    </thead>
+								    <tbody>
+
+								    </tbody>
+								</table>
+							</div>
+							<div style="padding-top:10px"><a href="#" data-toggle="modal" data-target="#lease_balance_modal" data-i18n="modals.leaseyourbal"></a></div>
+						</div>
+					</div>
+					<div class="modal-footer" style="margin-top:0;">
+			        	<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="modals.close"></button>
+			      	</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="asset_exchange_change_group_name_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.cnggroup"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<p data-i18n="modals.typegroup"></p>
+							<div class="form-group">
+								<label data-i18n="modals.oldgroup"></label>
+								<p id="asset_exchange_change_group_name_old_display"></p>
+								<input type="hidden" name="old_group_name" id="asset_exchange_change_group_name_old" value="" />
+							</div>
+							<div class="form-group">
+								<label for="asset_exchange_change_group_name_new" data-i18n="modals.newgroup"></label>
+								<input type="text" class="form-control" name="new_group_name" id="asset_exchange_change_group_name_new" placeholder="New group name" />
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="request_type" value="assetExchangeChangeGroupName" />
+			      		<input type="hidden" name="success_message" value="Group name has been changed successfully." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" id="asset_exchange_change_group_name_submit" data-loading-text="Submitting..." data-i18n="modals.cnggroup"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="asset_exchange_group_modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-wide">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" data-i18n="modals.groupasset"></h4>
+		      		</div>
+		      		<div class="modal-body">
+						<form role="form">
+							<div class="callout callout-danger error_message" style="display:none"></div>
+							<p data-i18n="modals.choosegroup"></p>
+							<div class="form-group">
+								<label data-i18n="modals.asset"></label>
+								<p id="asset_exchange_group_title"></p>
+								<input type="hidden" name="asset_exchange_group_asset" id="asset_exchange_group_asset" value="" />
+							</div>
+							<div class="form-group">
+								<label for="asset_exchange_group_group" data-i18n="modals.group"></label>
+								<select name="asset_exchange_group_group" id="asset_exchange_group_group" class="form-control">
+								</select>
+							</div>
+							<div class="form-group" id="asset_exchange_group_new_group_div" style="display:none">
+								<input type="text" class="form-control" name="asset_exchange_group_new_group" id="asset_exchange_group_new_group" placeholder="New group title" />
+
+							</div>
+						</form>
+		      		</div>
+			      	<div class="modal-footer" style="margin-top:0;">
+			      		<input type="hidden" name="request_type" value="assetExchangeGroup" />
+			      		<input type="hidden" name="success_message" value="Asset has been added to group." />
+				        <button type="button" class="btn btn-default" data-dismiss="modal" data-i18n="lockscreen.cancel"></button>
+				        <button type="button" class="btn btn-primary" id="asset_exchange_group_submit" data-loading-text="Submitting..." data-i18n="modals.addtogroup"></button>
+			      	</div>
+		    	</div>
+			</div>
+		</div>
+
+		<div id="asset_exchange_sidebar_context" class="context_menu dropdown clearfix">
+		    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+		        <li><a tabindex="-1" href="#" data-option="add_to_group" data-i18n="modals.addtogroup"></a></li>
+		        <li><a tabindex="-1" href="#" data-option="remove_from_group" data-class="list-group-item-grouped" data-i18n="modals.removegroup"></a></li>
+		        <li><a tabindex="-1" href="#" data-option="remove_from_bookmarks" data-class="not_owns_asset" data-i18n="modals.removebookmark"></a></li>
+		    </ul>
+		</div>
+
+		<div id="asset_exchange_sidebar_group_context" class="context_menu dropdown clearfix">
+		    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+		        <li><a tabindex="-1" href="#" data-option="change_group_name" data-i18n="modals.cnggroup"></a></li>
+		    </ul>
+		</div>
+
+		<div id="messages_sidebar_context" class="context_menu dropdown clearfix">
+		    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+		    	<li><a tabindex="-1" href="#" data-option="account_info" data-i18n="modals.accinfo"></a></li>
+		        <li><a tabindex="-1" href="#" data-option="add_contact" data-i18n="contacts.add"></a></li>
+				<li><a tabindex="-1" href="#" data-option="send_nhz" data-i18n="modals.sendnhz"></a></li>
+		    </ul>
+		</div>
+
+		<div id="messages_sidebar_update_context" class="context_menu dropdown clearfix">
+		    <ul class="dropdown-menu" data-container="body" role="menu" style="display:block;position:static;margin-bottom:5px;">
+		    	<li><a tabindex="-1" href="#" data-option="account_info" data-i18n="modals.accinfo"></a></li>
+		        <li><a tabindex="-1" href="#" data-option="update_contact" data-i18n="modals.update"></a></li>
+				<li><a tabindex="-1" href="#" data-option="send_nhz" data-i18n="modals.sendnhz"></a></li>
+		    </ul>
+		</div>
+
+		<div id="downloading_blockchain" data-i18n="[html]modals.downloadblockchain"></div>
+
+		<div id="show_console">
+			<a href="#" onclick="NRS.showConsole();return false;" style="color:black;"><i class="fa fa-terminal" style="font-weight:bold"></i></a>
+		</div>
+
+	</div>
+
+		<!--[if lte IE 9]>
+		<script type="text/javascript">
+	    	document.getElementById("old_browser_warning").style.display = "block";
+		</script>
+		<![endif]-->
+
+        <script src="js/3rdparty/jquery-2.1.0.js"></script>
+		<script src="js/3rdparty/i18next.js"></script>
+
+			<script type="text/javascript">
+				i18n.init();
+
+				i18n.init(function(t) {
+				$(".nav").i18n();
+				$(".sidebar").i18n();
+				$(".dashboard").i18n();
+				$(".transactions").i18n();
+				$(".messages").i18n();
+				$(".contacts").i18n();
+				$(".polls").i18n();
+				$(".alias").i18n();
+				$(".openorders").i18n();
+				$(".myassets").i18n();
+				$(".aepage").i18n();
+				$(".config").i18n();
+				$(".peers").i18n();
+				$(".news").i18n();
+				$(".blocks").i18n();
+				$(".lockscreen").i18n();
+				$(".modals").i18n();
+				$(".js").i18n();
+
+				// programatical access
+				var appName = t("app.name");
+				});
+			</script>
+
+        <script src="js/3rdparty/bootstrap.js" type="text/javascript"></script>
+		<script src="js/3rdparty/ajaxretry.js"></script>
+		<script src="js/3rdparty/ajaxmultiqueue.js"></script>
+		<script src="js/3rdparty/jquery.rss.js" type="text/javascript"></script>
+        <script src="js/3rdparty/webdb.js" type="text/javascript"></script>
+        <script src="js/3rdparty/growl.js" type="text/javascript"></script>
+        <script src="js/3rdparty/zeroclipboard.js" type="text/javascript"></script>
+        <script src="js/3rdparty/bootstrap-colorpicker.js" type="text/javascript"></script>
+        <script src="js/3rdparty/jsbn.js" type="text/javascript"></script>
+        <script src="js/3rdparty/jsbn2.js" type="text/javascript"></script>
+        <script src="js/3rdparty/big.js" type="text/javascript"></script>
+     <!--   <script src="js/3rdparty/addclear.js" type="text/javascript"></script> -->
+
+        <script src="js/util/extensions.js" type="text/javascript"></script>
+        <script src="js/util/converters.js" type="text/javascript"></script>
+        <script src="js/util/nhzaddress.js" type="text/javascript"></script>
+
+		<script src="js/crypto/3rdparty/jssha256.js" type="text/javascript"></script>
+        <script src="js/crypto/curve25519.js" type="text/javascript"></script>
+        <script src="js/crypto/curve25519_.js" type="text/javascript"></script>
+        <script src="js/crypto/crypto.js" type="text/javascript"></script>
+        <script src="js/crypto/xoreddata.js" type="text/javascript"></script>
+
+        <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/nrs.js" type="text/javascript"></script>
+        <script src="js/nrs.server.js" type="text/javascript"></script>
+        <script src="js/nrs.forms.js" type="text/javascript"></script>
+        <script src="js/nrs.login.js" type="text/javascript"></script>
+        <script src="js/nrs.update.js" type="text/javascript"></script>
+        <script src="js/nrs.recipient.js" type="text/javascript"></script>
+        <script src="js/nrs.assetexchange.js" type="text/javascript"></script>
+        <script src="js/nrs.messages.js" type="text/javascript"></script>
+        <script src="js/nrs.aliases.js" type="text/javascript"></script>
+        <script src="js/nrs.polls.js" type="text/javascript"></script>
+        <script src="js/nrs.blocks.js" type="text/javascript"></script>
+        <script src="js/nrs.transactions.js" type="text/javascript"></script>
+        <script src="js/nrs.peers.js" type="text/javascript"></script>
+        <script src="js/nrs.contacts.js" type="text/javascript"></script>
+        <script src="js/nrs.news.js" type="text/javascript"></script>
+        <script src="js/nrs.settings.js" type="text/javascript"></script>
+        <script src="js/nrs.sidebar.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.account.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.accountdetails.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.block.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.forging.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.info.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.token.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.transaction.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.accountinfo.js" type="text/javascript"></script>
+        <script src="js/nrs.modals.balanceleasing.js" type="text/javascript"></script>
+        <script src="js/nrs.console.js" type="text/javascript"></script>
+        <script src="js/nrs.util.js" type="text/javascript"></script>
+    </body>
+</html>
